@@ -83,6 +83,12 @@ create policy "Authenticated users can delete posts"
   on posts for delete
   using (auth.role() = 'authenticated');
 
+-- AUTHENTICATED READ: Authenticated users can read all posts (including drafts)
+DROP POLICY IF EXISTS "Authenticated users can read all posts" on posts;
+create policy "Authenticated users can read all posts"
+  on posts for select
+  using (auth.role() = 'authenticated');
+
 -- ============================================================
 -- STORAGE POLICIES (images bucket)
 -- ============================================================
