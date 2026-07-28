@@ -36,6 +36,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     );
   }
 
+  if (!user) {
+    return <>{children}</>;
+  }
+
   return (
     <>
       <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r bg-card">
@@ -71,11 +75,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <div className="border-t p-2">
-          {user && (
-            <p className="truncate px-3 py-1 text-xs text-muted-foreground">
-              {user.email}
-            </p>
-          )}
+          <p className="truncate px-3 py-1 text-xs text-muted-foreground">
+            {user.email}
+          </p>
           <Button
             variant="ghost"
             className="w-full justify-start gap-2"

@@ -1,0 +1,155 @@
+# Portfolio - Visão Geral do Projeto
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack)
+- **UI:** React 19 + TypeScript
+- **Estilo:** Tailwind CSS v4 + Shadcn UI (base-nova, @base-ui/react)
+- **Banco:** Supabase (Auth + PostgreSQL + Storage)
+- **Email:** EmailJS (formulário de contato frontend)
+- **Deploy:** Vercel
+- **Fontes:** Inter (sans), Geist Mono (mono)
+
+## Estrutura de Pastas
+
+```
+src/
+├── app/
+│   ├── layout.tsx              # Root layout: fonts, ThemeProvider, Header, Footer, Toaster
+│   ├── page.tsx                # Home: Hero + Skills + Featured Projects + Contact CTA
+│   ├── globals.css             # Dark theme (cyan/violet), prose-custom, utilitários
+│   ├── not-found.tsx           # Página 404 customizada
+│   ├── projects/
+│   │   ├── page.tsx            # Listagem de projetos com filtro por tags
+│   │   ├── filters.tsx         # Client: badges de filtro (?tag= URL params)
+│   │   └── [slug]/page.tsx     # Detalhe do projeto (MD renderizado)
+│   ├── blog/
+│   │   ├── page.tsx            # Listagem de posts publicados
+│   │   └── [slug]/page.tsx     # Detalhe do post (MdRenderer)
+│   ├── contact/page.tsx        # Formulário de contato (EmailJS)
+│   └── admin/
+│       ├── page.tsx            # Redirect server-side → /admin/dashboard
+│       ├── layout.tsx          # Server layout (force-dynamic) + AuthProvider + AdminShell
+│       ├── login/page.tsx      # Login via Supabase signInWithPassword
+│       └── dashboard/
+│           ├── page.tsx        # Stats (Supabase counts com fallback)
+│           ├── projects/       # CRUD: list, new, [id]/edit
+│           └── posts/          # CRUD: list, new, [id]/edit
+├── components/
+│   ├── layout/                 # Header (sticky, mobile hamburger), Footer, ThemeToggle
+│   ├── sections/               # Hero, Skills, FeaturedProjects (home page)
+│   ├── projects/               # ProjectCard
+│   ├── blog/                   # PostCard, MdRenderer (react-markdown)
+│   ├── contact/                # ContactForm (react-hook-form + zod)
+│   ├── admin/                  # AdminShell (sidebar + logout)
+│   ├── providers/              # ThemeProvider (next-themes), AuthProvider (Supabase)
+│   └── ui/                     # 11 componentes Shadcn (button, card, input, etc.)
+├── lib/
+│   ├── supabase/client.ts      # Browser client (createBrowserClient)
+│   ├── supabase/server.ts      # Server client (async cookies)
+│   ├── supabase/admin.ts       # Service role client (admin ops)
+│   ├── emailjs.ts              # sendContactEmail wrapper
+│   └── utils.ts                # cn, formatDate, slugify
+├── hooks/use-debounce.ts       # Debounce hook
+├── types/index.ts              # Project, Post, ContactFormValues, etc.
+└── middleware.ts                # Proteção de rotas /admin/* (deprecated → proxy)
+```
+
+## Rotas
+
+| Rota | Tipo | Descrição |
+|---|---|---|
+| `/` | Static | Home (Hero + Skills + Featured Projects) |
+| `/projects` | Dynamic | Lista de projetos com filtro por tags |
+| `/projects/[slug]` | SSG | Detalhe do projeto (MD renderizado) |
+| `/blog` | Dynamic | Lista de posts publicados |
+| `/blog/[slug]` | SSG | Detalhe do post (MD com syntax highlight) |
+| `/contact` | Static | Formulário de contato (EmailJS) |
+| `/admin` | Dynamic | Redirect → /admin/dashboard |
+| `/admin/login` | Dynamic | Login via Supabase Auth |
+| `/admin/dashboard` | Dynamic | Painel com stats (counts) |
+| `/admin/dashboard/projects` | Dynamic | CRUD projetos (list, toggle featured, delete) |
+| `/admin/dashboard/projects/new` | Dynamic | Criar projeto |
+| `/admin/dashboard/projects/[id]/edit` | Dynamic | Editar projeto |
+| `/admin/dashboard/posts` | Dynamic | CRUD posts (list, toggle published, delete) |
+| `/admin/dashboard/posts/new` | Dynamic | Criar post |
+| `/admin/dashboard/posts/[id]/edit` | Dynamic | Editar post |
+
+## Features Implementadas
+
+- **Dark/Light mode** via next-themes (dark default)
+- **Formulário de contato** com react-hook-form + zod + EmailJS
+- **Blog com Markdown** (react-markdown + remark-gfm + rehype-highlight + rehype-raw)
+- **Projetos com filtro** por tags via URL params
+- **Área admin completa** com auth Supabase + CRUD projetos e posts
+- **Middleware** protegendo rotas /admin/* (redireciona para login)
+- **SEO** (generateMetadata, generateStaticParams)
+- **Loading skeletons** em páginas de listing
+- **Toast notifications** via sonner
+- **Responsivo** com mobile hamburger menu no header
+
+## Variáveis de Ambiente (.env.local)
+
+| Variável | Onde encontrar |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Settings → General → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Settings → API Keys → Publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard → Settings → API Keys → Secret key |
+| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | EmailJS → Email Services → Service ID |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | EmailJS → Email Templates → Template ID |
+| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | EmailJS → Account → Public Key |
+
+## EmailJS Template
+
+Variáveis usadas no template:
+- `{{from_name}}` — nome do remetente
+- `{{from_email}}` — email do remetente
+- `{{subject}}` — assunto
+- `{{message}}` — mensagem
+
+## Supabase Schema (supabase/schema.sql)
+
+Tabelas:
+- **projects**: id, title, description, long_description (MD), image_url, tags (text[]), featured, live_url, github_url, created_at
+- **posts**: id, title, slug, excerpt, content (MD), published, created_at, updated_at
+
+RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados.
+
+## Status Atual
+
+- **Build:** ✅ passa sem erros (Next.js 16 Turbopack)
+- **Lint:** ✅ 0 erros, 3 warnings (apenas `<img>` no blog — aceitáveis)
+- **Deploy:** ✅ funcionando na Vercel
+- **Admin login:** ✅ corrigido com `window.location.href` (força reload para cookie disponível ao middleware)
+- **Email:** ✅ formulário funcional com EmailJS
+
+## Pendências / Melhorias Futuras
+
+- [ ] Ajustar tamanhos de fonte (usuário achou pequenas demais)
+- [ ] Migrar `middleware.ts` para `proxy` (convenção do Next.js 16, middleware está deprecated)
+- [ ] Substituir `<img>` por `next/image` nos componentes do blog
+- [ ] Configurar Supabase Storage para imagens de projetos/posts
+- [ ] Adicionar página de detalhe para `/admin` (atualmente é só redirect)
+
+## Como Rodar
+
+```bash
+# 1. Instalar dependências
+npm install
+
+# 2. Copiar .env.example para .env.local e preencher as variáveis
+
+# 3. Rodar a migration SQL no Supabase (supabase/schema.sql)
+
+# 4. Criar usuário admin no Supabase Dashboard → Authentication → Users
+
+# 5. Iniciar dev server
+npm run dev
+```
+
+## Notas para Próxima Sessão
+
+- O projeto está em `C:\Users\Juan.Matos\Desktop\portfolio`
+- Repo GitHub já criado (fazer push com mudanças recentes)
+- Deploy automático na Vercel a cada push no GitHub
+- Shadcn base-nova usa `@base-ui/react` (não Radix) — componentes usam `render` prop para Links
