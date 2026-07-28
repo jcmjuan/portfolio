@@ -1,15 +1,10 @@
-import { ArrowLeft } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-
 export default function ProjectLoading() {
   return (
     <article className="px-6 py-20">
       <div className="mx-auto max-w-3xl space-y-10">
-        <Button variant="ghost" size="sm" className="gap-1.5" disabled>
-          <ArrowLeft className="size-4" />
-          Back to Projects
-        </Button>
+        <span className="inline-flex h-7 items-center gap-1.5 px-2.5 text-sm text-muted-foreground">
+          ← Back to Projects
+        </span>
 
         <div className="h-64 animate-pulse rounded-xl bg-muted" />
 
