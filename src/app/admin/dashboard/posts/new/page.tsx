@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { slugify } from "@/lib/utils";
 import { toast } from "sonner";
 import type { PostFormValues } from "@/types";
@@ -107,14 +108,12 @@ export default function NewPostPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="cover_image_url">Cover Image URL</Label>
-              <Input
-                id="cover_image_url"
-                value={form.cover_image_url}
-                onChange={(e) => updateField("cover_image_url", e.target.value)}
-              />
-            </div>
+            <ImageUpload
+              value={form.cover_image_url}
+              onChange={(url) => updateField("cover_image_url", url)}
+              folder="posts"
+              label="Cover Image"
+            />
 
             <div className="flex items-center gap-2">
               <input

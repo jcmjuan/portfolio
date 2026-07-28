@@ -10,54 +10,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { Project } from "@/types"
 
-const placeholderProjects: Project[] = [
-  {
-    id: "1",
-    title: "E-Commerce Platform",
-    slug: "e-commerce-platform",
-    description:
-      "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
-    full_content:
-      "## Overview\n\nThis project is a complete e-commerce platform built with Next.js and Supabase.\n\n## Features\n\n- Real-time inventory management\n- Stripe payment integration\n- Admin dashboard with analytics\n- Responsive design\n\n## Tech Stack\n\n- **Frontend:** Next.js, TypeScript, Tailwind CSS\n- **Backend:** Supabase, PostgreSQL\n- **Payments:** Stripe",
-    tags: ["Next.js", "TypeScript", "Supabase", "Stripe"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "AI Content Generator",
-    slug: "ai-content-generator",
-    description:
-      "An AI-powered tool that generates marketing copy, blog posts, and social media content.",
-    full_content:
-      "## Overview\n\nAn AI-powered content generation tool using OpenAI's API.\n\n## Features\n\n- Multiple content templates\n- SEO optimization suggestions\n- Export to various formats\n- Team collaboration",
-    tags: ["React", "Python", "OpenAI", "FastAPI"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Real-time Dashboard",
-    slug: "realtime-dashboard",
-    description:
-      "A live analytics dashboard with WebSocket-powered updates and interactive data visualizations.",
-    full_content:
-      "## Overview\n\nA real-time analytics dashboard for monitoring key metrics.\n\n## Features\n\n- WebSocket-powered live updates\n- Interactive D3.js charts\n- Custom date range filtering\n- Export reports as PDF",
-    tags: ["Next.js", "D3.js", "WebSocket", "Redis"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-]
-
 function getGradient(index: number) {
   const gradients = [
     "from-cyan-500/20 to-violet-500/20",
@@ -73,7 +25,7 @@ async function getProject(slug: string): Promise<Project | null> {
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!url || !key) {
-      return placeholderProjects.find((p) => p.slug === slug) ?? null
+      return null
     }
 
     const supabase = await createClient()
@@ -99,19 +51,19 @@ export async function generateStaticParams() {
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!url || !key) {
-      return placeholderProjects.map((p) => ({ slug: p.slug }))
+      return []
     }
 
     const supabase = await createClient()
     const { data } = await supabase.from("projects").select("slug")
 
     if (!data) {
-      return placeholderProjects.map((p) => ({ slug: p.slug }))
+      return []
     }
 
     return data.map((p) => ({ slug: p.slug }))
   } catch {
-    return placeholderProjects.map((p) => ({ slug: p.slug }))
+    return []
   }
 }
 

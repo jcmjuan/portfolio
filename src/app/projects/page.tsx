@@ -12,100 +12,13 @@ export const metadata: Metadata = {
     "Browse my collection of projects — web apps, tools, and experiments built with modern technologies.",
 }
 
-const placeholderProjects: Project[] = [
-  {
-    id: "1",
-    title: "E-Commerce Platform",
-    slug: "e-commerce-platform",
-    description:
-      "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
-    full_content: "",
-    tags: ["Next.js", "TypeScript", "Supabase", "Stripe"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "AI Content Generator",
-    slug: "ai-content-generator",
-    description:
-      "An AI-powered tool that generates marketing copy, blog posts, and social media content.",
-    full_content: "",
-    tags: ["React", "Python", "OpenAI", "FastAPI"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Real-time Dashboard",
-    slug: "realtime-dashboard",
-    description:
-      "A live analytics dashboard with WebSocket-powered updates and interactive data visualizations.",
-    full_content: "",
-    tags: ["Next.js", "D3.js", "WebSocket", "Redis"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "4",
-    title: "Task Management App",
-    slug: "task-management-app",
-    description:
-      "A collaborative project management tool with real-time updates, drag-and-drop boards, and team workspaces.",
-    full_content: "",
-    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "5",
-    title: "Weather Dashboard",
-    slug: "weather-dashboard",
-    description:
-      "A beautiful weather app with 7-day forecasts, interactive maps, and location-based alerts.",
-    full_content: "",
-    tags: ["React", "OpenWeather API", "D3.js", "Tailwind CSS"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "6",
-    title: "Chat Application",
-    slug: "chat-application",
-    description:
-      "A real-time chat platform with direct messages, group channels, file sharing, and emoji reactions.",
-    full_content: "",
-    tags: ["React", "Socket.io", "Express", "MongoDB"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: false,
-    created_at: new Date().toISOString(),
-  },
-]
-
 async function getAllProjects(): Promise<Project[]> {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!url || !key) {
-      return placeholderProjects
+      return []
     }
 
     const supabase = await createClient()
@@ -115,12 +28,12 @@ async function getAllProjects(): Promise<Project[]> {
       .order("created_at", { ascending: false })
 
     if (error || !data || data.length === 0) {
-      return placeholderProjects
+      return []
     }
 
     return data as Project[]
   } catch {
-    return placeholderProjects
+    return []
   }
 }
 
@@ -163,7 +76,9 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         {filteredProjects.length === 0 && (
           <div className="py-12 text-center">
             <p className="text-muted-foreground">
-              No projects found with the selected tag.
+              {tag
+                ? "No projects found with the selected tag."
+                : "No projects yet — check back soon!"}
             </p>
           </div>
         )}

@@ -74,7 +74,14 @@ export function ProjectCard({
         </div>
       </Link>
       <CardHeader>
-        <CardTitle className="line-clamp-1">{project.title}</CardTitle>
+        <CardTitle className="line-clamp-1">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="hover:underline underline-offset-4"
+          >
+            {project.title}
+          </Link>
+        </CardTitle>
         <CardDescription className="line-clamp-2">
           {project.description}
         </CardDescription>

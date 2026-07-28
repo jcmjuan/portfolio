@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ExternalLink, GitFork } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -12,51 +13,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/server"
 import type { Project } from "@/types"
-
-const placeholderProjects: Project[] = [
-  {
-    id: "1",
-    title: "E-Commerce Platform",
-    slug: "e-commerce-platform",
-    description:
-      "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
-    full_content: "",
-    tags: ["Next.js", "TypeScript", "Supabase", "Stripe"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "AI Content Generator",
-    slug: "ai-content-generator",
-    description:
-      "An AI-powered tool that generates marketing copy, blog posts, and social media content.",
-    full_content: "",
-    tags: ["React", "Python", "OpenAI", "FastAPI"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Real-time Dashboard",
-    slug: "realtime-dashboard",
-    description:
-      "A live analytics dashboard with WebSocket-powered updates and interactive data visualizations.",
-    full_content: "",
-    tags: ["Next.js", "D3.js", "WebSocket", "Redis"],
-    repo_url: "https://github.com",
-    live_url: "https://example.com",
-    cover_image_url: null,
-    featured: true,
-    created_at: new Date().toISOString(),
-  },
-]
 
 function getGradients(index: number) {
   const gradients = [
@@ -73,7 +29,7 @@ async function getFeaturedProjects(): Promise<Project[]> {
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!url || !key) {
-      return placeholderProjects
+      return []
     }
 
     const supabase = await createClient()
@@ -85,12 +41,12 @@ async function getFeaturedProjects(): Promise<Project[]> {
       .limit(3)
 
     if (error || !data || data.length === 0) {
-      return placeholderProjects
+      return []
     }
 
     return data as Project[]
   } catch {
-    return placeholderProjects
+    return []
   }
 }
 
@@ -110,17 +66,44 @@ export async function FeaturedProjects() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.length === 0 && (
+            <p className="col-span-full py-12 text-center text-muted-foreground">
+              Coming soon — projects will appear here soon.
+            </p>
+          )}
           {projects.map((project, index) => (
             <Card key={project.id} className="group overflow-hidden">
-              <div
-                className={`flex h-40 items-center justify-center bg-gradient-to-br ${getGradients(index)}`}
+              <Link
+                href={`/projects/${project.slug}`}
+                className="block"
               >
-                <span className="text-4xl font-bold text-muted-foreground/20">
-                  {project.title.charAt(0)}
-                </span>
-              </div>
+                <div
+                  className={`relative flex h-40 items-center justify-center bg-gradient-to-br ${getGradients(index)}`}
+                >
+                  {project.cover_image_url ? (
+                    <Image
+                      src={project.cover_image_url}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <span className="text-4xl font-bold text-muted-foreground/20">
+                      {project.title.charAt(0)}
+                    </span>
+                  )}
+                </div>
+              </Link>
               <CardHeader>
-                <CardTitle>{project.title}</CardTitle>
+                <CardTitle>
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="hover:underline underline-offset-4"
+                  >
+                    {project.title}
+                  </Link>
+                </CardTitle>
                 <CardDescription className="line-clamp-2">
                   {project.description}
                 </CardDescription>
