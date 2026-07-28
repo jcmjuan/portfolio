@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server"
 import { PostDetailView } from "@/components/blog/post-detail"
 import type { Post } from "@/types"
 
+export const dynamic = "force-dynamic"
+
 async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -53,31 +55,6 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.created_at,
     },
-  }
-}
-
-export async function generateStaticParams() {
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      return []
-    }
-
-    const supabase = await createClient()
-    const { data } = await supabase
-      .from("posts")
-      .select("slug")
-      .eq("published", true)
-
-    if (!data) {
-      return []
-    }
-
-    return data.map((post) => ({ slug: post.slug }))
-  } catch {
-    return []
   }
 }
 

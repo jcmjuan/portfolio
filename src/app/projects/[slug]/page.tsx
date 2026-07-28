@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server"
 import { ProjectDetailView } from "@/components/projects/project-detail"
 import type { Project } from "@/types"
 
+export const dynamic = "force-dynamic"
+
 async function getProject(slug: string): Promise<Project | null> {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -35,28 +37,6 @@ async function getProject(slug: string): Promise<Project | null> {
   } catch (err) {
     console.error("[getProject] Unexpected error:", err)
     return null
-  }
-}
-
-export async function generateStaticParams() {
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      return []
-    }
-
-    const supabase = await createClient()
-    const { data } = await supabase.from("projects").select("slug")
-
-    if (!data) {
-      return []
-    }
-
-    return data.map((p) => ({ slug: p.slug }))
-  } catch {
-    return []
   }
 }
 
