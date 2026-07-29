@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Mail } from "lucide-react"
+import { ArrowRight, Mail, User } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
@@ -32,6 +32,13 @@ export function Hero() {
           Olá, eu sou o{" "}
           <span className="text-gradient">Juan Carlos</span>
         </h1>
+
+        <div
+          className="animate-[fade-in_0.6s_ease-out_both] flex size-24 items-center justify-center rounded-full border-2 border-dashed border-border bg-muted/50 sm:size-32 lg:size-40"
+          style={{ animationDelay: "0.15s" }}
+        >
+          <User className="size-12 text-muted-foreground/50 sm:size-16 lg:size-20" />
+        </div>
 
         <p
           className="animate-[fade-in_0.6s_ease-out_both] text-xl text-muted-foreground sm:text-2xl"
