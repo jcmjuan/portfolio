@@ -12,6 +12,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { ImageUpload } from "@/components/admin/image-upload";
+import { slugify } from "@/lib/utils";
 import { toast } from "sonner";
 import type { ProjectFormValues } from "@/types";
 
@@ -62,7 +63,13 @@ export default function EditProjectPage() {
   }, [id, router]);
 
   const updateField = (field: keyof ProjectFormValues, value: string | boolean) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+    setForm((prev) => {
+      const next = { ...prev, [field]: value };
+      if (field === "title") {
+        next.slug = slugify(value as string);
+      }
+      return next;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

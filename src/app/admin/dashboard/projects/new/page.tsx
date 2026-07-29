@@ -34,7 +34,7 @@ export default function NewProjectPage() {
   const updateField = (field: keyof ProjectFormValues, value: string | boolean) => {
     setForm((prev) => {
       const next = { ...prev, [field]: value };
-      if (field === "title" && !prev.slug) {
+      if (field === "title") {
         next.slug = slugify(value as string);
       }
       return next;

@@ -28,7 +28,7 @@ export default function NewPostPage() {
   const updateField = (field: keyof PostFormValues, value: string | boolean) => {
     setForm((prev) => {
       const next = { ...prev, [field]: value };
-      if (field === "title" && !prev.slug) {
+      if (field === "title") {
         next.slug = slugify(value as string);
       }
       return next;
