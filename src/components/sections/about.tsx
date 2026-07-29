@@ -38,10 +38,10 @@ export function About() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <div className="flex flex-col space-y-6">
+          <div className="space-y-6">
             <h3 className="text-xl font-semibold">Quem Sou</h3>
 
-            <div className="flex-1 rounded-xl border border-border bg-card p-6">
+            <div className="rounded-xl border border-border bg-card p-6">
               <p className="text-muted-foreground leading-relaxed">
                 Sou um desenvolvedor web freelancer apaixonado por criar soluções
                 digitais que fazem a diferença. Com formação técnica e superior
@@ -51,7 +51,7 @@ export function About() {
               </p>
             </div>
 
-            <div className="flex-1 rounded-xl border border-border bg-card p-6">
+            <div className="rounded-xl border border-border bg-card p-6">
               <h3 className="text-xl font-semibold mb-4">Minha Abordagem</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Acredito que bom código não é apenas funcional, mas também
@@ -62,7 +62,7 @@ export function About() {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-4">
+          <div className="space-y-4">
             <h3 className="text-xl font-semibold">Formação Acadêmica</h3>
             {education.map((item) => (
               <div
