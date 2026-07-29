@@ -37,16 +37,16 @@ export function Hero() {
           className="animate-[fade-in_0.6s_ease-out_both] text-xl text-muted-foreground sm:text-2xl"
           style={{ animationDelay: "0.2s" }}
         >
-          Desenvolvedor Full Stack
+          Desenvolvedor Web Freelancer
         </p>
 
         <p
           className="animate-[fade-in_0.6s_ease-out_both] max-w-xl text-base text-muted-foreground sm:text-lg"
           style={{ animationDelay: "0.3s" }}
         >
-          Construo aplicações elegantes, performáticas e centradas no usuário
-          com tecnologias web modernas. Apaixonado por código limpo e
-          experiências intuitivas.
+          Transformo suas ideias em soluções web profissionais. Desde sites
+          institucionais até aplicações complexas, desenvolvo projetos que
+          geram resultados reais para seu negócio.
         </p>
 
         <div

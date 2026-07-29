@@ -33,10 +33,10 @@ export function Skills() {
       <div className="mx-auto max-w-6xl space-y-12">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Tech Stack & <span className="text-gradient">Skills</span>
+            Tecnologias Que <span className="text-gradient">Domino</span>
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Tecnologias que utilizo para dar vida às ideias
+            Ferramentas que uso para entregar resultados de qualidade
           </p>
         </div>
 

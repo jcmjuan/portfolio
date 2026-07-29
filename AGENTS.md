@@ -89,13 +89,15 @@ src/
 - **Projetos com filtro** por tags via URL params
 - **Área admin completa** com auth Supabase + CRUD projetos e posts
 - **Middleware** protegendo rotas /admin/* (redireciona para login)
-- **SEO** (generateMetadata)
+- **SEO** (generateMetadata) — todos os textos e metadata em pt-BR
 - **Loading skeletons** em páginas de listing
-- **Toast notifications** via sonner
+- **Toast notifications** via sonner (mensagens em português)
 - **Responsivo** com mobile hamburger menu no header
 - **Supabase Storage** configurado (bucket `images` com policies de read/insert/delete)
 - **Admin login redirect** — usuários logados são redirecionados para o dashboard
 - **RLS completo** — posts e projetos com policies para leitura pública e escrita autenticada; posts têm policy adicional para admins lerem drafts
+- **Conteúdo em português brasileiro** — toda a interface (labels, botões, validações, toasts, metadata SEO) traduzida para pt-BR
+- **Slug automático** — slug sempre gerada automaticamente a partir do título (criação e edição de projetos/posts)
 
 ## Variáveis de Ambiente (.env.local)
 
@@ -135,6 +137,8 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados. Po
 - **Detail pages:** ✅ corrigidas (SSG → dynamic para compatibilidade com Supabase SSR)
 - **RLS posts:** ✅ admins podem ler todos os posts (incluindo drafts)
 - **Admin login redirect:** ✅ usuários logados redirecionados para dashboard
+- **Tradução pt-BR:** ✅ toda a interface traduzida para português brasileiro
+- **Slug automático:** ✅ slug sempre gerada a partir do título (criação e edição)
 
 ## Pendências / Melhorias Futuras
 
@@ -143,6 +147,7 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados. Po
 - [ ] Substituir `<img>` por `next/image` nos componentes do blog
 - [ ] Configurar Supabase Storage para imagens de projetos/posts
 - [ ] Adicionar página de detalhe para `/admin` (atualmente é só redirect)
+- [ ] Internacionalizar conteúdo dinâmico (títulos e descrições de projetos/posts no banco)
 
 ## Como Rodar
 
@@ -167,3 +172,5 @@ npm run dev
 - Deploy automático na Vercel a cada push no GitHub
 - Shadcn base-nova usa `@base-ui/react` (não Radix) — componentes usam `render` prop para Links
 - Páginas de detalhe (`/projects/[slug]`, `/blog/[slug]`) são dynamic (force-dynamic) — não converter para SSG
+- Interface toda em pt-BR (labels, botões, toasts, metadata SEO, lang="pt-BR")
+- Slug sempre auto-gerada a partir do título — editável manualmente depois de gerada
