@@ -1,4 +1,4 @@
-import { GraduationCap, Award, BookOpen } from "lucide-react"
+import { GraduationCap, Award, BookOpen, Camera } from "lucide-react"
 
 const education = [
   {
@@ -39,8 +39,15 @@ export function About() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-6">
+            <h3 className="text-xl font-semibold">Quem Sou</h3>
+
+            <div className="flex justify-center">
+              <div className="flex size-32 items-center justify-center rounded-full border-2 border-dashed border-border bg-muted/50">
+                <Camera className="size-8 text-muted-foreground/50" />
+              </div>
+            </div>
+
             <div className="rounded-xl border border-border bg-card p-6">
-              <h3 className="text-xl font-semibold mb-4">Quem Sou</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Sou um desenvolvedor web freelancer apaixonado por criar soluções
                 digitais que fazem a diferença. Com formação técnica e superior
