@@ -22,14 +22,14 @@ export function Hero() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
           </span>
-          Available for new projects
+          Disponível para novos projetos
         </Badge>
 
         <h1
           className="animate-[fade-in_0.6s_ease-out_both] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           style={{ animationDelay: "0.1s" }}
         >
-          Hi, I&apos;m{" "}
+          Olá, eu sou o{" "}
           <span className="text-gradient">Juan Carlos</span>
         </h1>
 
@@ -37,16 +37,16 @@ export function Hero() {
           className="animate-[fade-in_0.6s_ease-out_both] text-xl text-muted-foreground sm:text-2xl"
           style={{ animationDelay: "0.2s" }}
         >
-          Full Stack Developer
+          Desenvolvedor Full Stack
         </p>
 
         <p
           className="animate-[fade-in_0.6s_ease-out_both] max-w-xl text-base text-muted-foreground sm:text-lg"
           style={{ animationDelay: "0.3s" }}
         >
-          I build elegant, performant, and user-centric applications with modern
-          web technologies. Passionate about crafting clean code and intuitive
-          experiences.
+          Construo aplicações elegantes, performáticas e centradas no usuário
+          com tecnologias web modernas. Apaixonado por código limpo e
+          experiências intuitivas.
         </p>
 
         <div
@@ -58,7 +58,7 @@ export function Hero() {
             variant="default"
             className="glow-cyan gap-2 px-6"
           >
-            View Projects
+            Ver Projetos
             <ArrowRight className="size-4" />
           </Button>
           <Button
@@ -66,7 +66,7 @@ export function Hero() {
             variant="outline"
             className="gap-2 px-6"
           >
-            Contact Me
+            Fale Comigo
             <Mail className="size-4" />
           </Button>
         </div>

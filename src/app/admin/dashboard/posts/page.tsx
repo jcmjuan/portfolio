@@ -52,7 +52,7 @@ export default function PostsPage() {
     setPosts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, published: !current } : p))
     );
-    toast.success("Updated");
+    toast.success("Atualizado");
   };
 
   const deletePost = async (id: string) => {
@@ -65,7 +65,7 @@ export default function PostsPage() {
     }
 
     setPosts((prev) => prev.filter((p) => p.id !== id));
-    toast.success("Deleted");
+    toast.success("Excluído");
   };
 
   if (loading) {
@@ -82,7 +82,7 @@ export default function PostsPage() {
         <h1 className="font-heading text-2xl font-semibold">Posts</h1>
         <Button render={<Link href="/admin/dashboard/posts/new" />}>
           <Plus className="size-4" />
-          New Post
+          Novo Post
         </Button>
       </div>
 
@@ -92,10 +92,10 @@ export default function PostsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b text-left text-sm text-muted-foreground">
-                  <th className="p-3 font-medium">Title</th>
+                  <th className="p-3 font-medium">Título</th>
                   <th className="p-3 font-medium">Status</th>
-                  <th className="p-3 font-medium">Created</th>
-                  <th className="p-3 font-medium text-right">Actions</th>
+                  <th className="p-3 font-medium">Criado em</th>
+                  <th className="p-3 font-medium text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -106,10 +106,10 @@ export default function PostsPage() {
                       {post.published ? (
                         <Badge variant="default">
                           <Send className="size-3" />
-                          Published
+                          Publicado
                         </Badge>
                       ) : (
-                        <Badge variant="secondary">Draft</Badge>
+                        <Badge variant="secondary">Rascunho</Badge>
                       )}
                     </td>
                     <td className="p-3 text-muted-foreground">
@@ -123,7 +123,7 @@ export default function PostsPage() {
                           onClick={() =>
                             togglePublished(post.id, post.published)
                           }
-                          title="Toggle published"
+                          title="Alternar publicação"
                         >
                           <Send
                             className={
@@ -154,23 +154,23 @@ export default function PostsPage() {
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Delete Post</DialogTitle>
+                              <DialogTitle>Excluir Post</DialogTitle>
                               <DialogDescription>
-                                Are you sure you want to delete &quot;{post.title}&quot;?
-                                This action cannot be undone.
+                                Tem certeza de que deseja excluir &quot;{post.title}&quot;?
+                                Esta ação não pode ser desfeita.
                               </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
                               <DialogClose
                                 render={<Button variant="outline" />}
                               >
-                                Cancel
+                                Cancelar
                               </DialogClose>
                               <Button
                                 variant="destructive"
                                 onClick={() => deletePost(post.id)}
                               >
-                                Delete
+                                Excluir
                               </Button>
                             </DialogFooter>
                           </DialogContent>
@@ -185,7 +185,7 @@ export default function PostsPage() {
                       colSpan={4}
                       className="p-8 text-center text-muted-foreground"
                     >
-                      No posts yet.
+                      Nenhum post ainda.
                     </td>
                   </tr>
                 )}

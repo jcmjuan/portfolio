@@ -39,7 +39,7 @@ function Footer({ className, ...props }: React.ComponentProps<"footer">) {
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between">
         <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} JCM. All rights reserved.
+          &copy; {new Date().getFullYear()} JCM. Todos os direitos reservados.
         </p>
         <div className="flex items-center gap-3">
           {socialLinks.map(({ href, label, icon }) => (

@@ -4,22 +4,22 @@ import { Mail, MapPin } from "lucide-react"
 import { ContactForm } from "@/components/contact/contact-form"
 
 export const metadata: Metadata = {
-  title: "Get in Touch",
+  title: "Fale Comigo",
   description:
-    "Get in touch with Juan Carlos Matos — Full Stack Developer. Whether you have a question, want to collaborate, or just want to say hi, feel free to reach out.",
+    "Entre em contato com Juan Carlos Matos — Desenvolvedor Full Stack. Se você tem uma pergunta, quer colaborar ou apenas bater um papo, fique à vontade para entrar em contato.",
 }
 
 const contactInfo = [
   {
     icon: Mail,
-    label: "Email",
+    label: "E-mail",
     value: "hello@juancarlosmatos.dev",
     href: "mailto:hello@juancarlosmatos.dev",
   },
   {
     icon: MapPin,
-    label: "Location",
-    value: "Dominican Republic",
+    label: "Localização",
+    value: "República Dominicana",
     href: null,
   },
 ]
@@ -60,10 +60,10 @@ export default function ContactPage() {
       <div className="mx-auto max-w-6xl space-y-12">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Get in Touch
+            Fale Comigo
           </h1>
           <p className="mt-3 text-muted-foreground">
-            Have a question or want to work together? Drop me a message.
+            Tem uma pergunta ou quer trabalhar comigo? Me mande uma mensagem.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default function ContactPage() {
 
           <div className="space-y-8 lg:col-span-2">
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Contact Info</h2>
+              <h2 className="text-lg font-semibold">Informações de Contato</h2>
               <div className="space-y-3">
                 {contactInfo.map((item) => (
                   <div key={item.label} className="flex items-start gap-3">
@@ -100,7 +100,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Social</h2>
+              <h2 className="text-lg font-semibold">Redes Sociais</h2>
               <div className="flex gap-3">
                 {socialLinks.map((link) => (
                   <a

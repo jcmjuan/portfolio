@@ -42,7 +42,7 @@ export default function EditProjectPage() {
       .single()
       .then(({ data, error }) => {
         if (error || !data) {
-          toast.error("Project not found");
+          toast.error("Projeto não encontrado");
           router.push("/admin/dashboard/projects");
           return;
         }
@@ -95,7 +95,7 @@ export default function EditProjectPage() {
       return;
     }
 
-    toast.success("Project updated");
+    toast.success("Projeto atualizado");
     router.push("/admin/dashboard/projects");
   };
 
@@ -109,13 +109,13 @@ export default function EditProjectPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="font-heading text-2xl font-semibold">Edit Project</h1>
+      <h1 className="font-heading text-2xl font-semibold">Editar Projeto</h1>
 
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={form.title}
@@ -135,7 +135,7 @@ export default function EditProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Descrição</Label>
               <Input
                 id="description"
                 value={form.description}
@@ -145,7 +145,7 @@ export default function EditProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="full_content">Full Content (Markdown)</Label>
+              <Label htmlFor="full_content">Conteúdo Completo (Markdown)</Label>
               <Textarea
                 id="full_content"
                 rows={10}
@@ -156,7 +156,7 @@ export default function EditProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="tags">Tags (comma-separated)</Label>
+              <Label htmlFor="tags">Tags (separadas por vírgula)</Label>
               <Input
                 id="tags"
                 value={form.tags}
@@ -200,19 +200,19 @@ export default function EditProjectPage() {
                 onChange={(e) => updateField("featured", e.target.checked)}
                 className="size-4 rounded border-input"
               />
-              <Label htmlFor="featured">Featured</Label>
+              <Label htmlFor="featured">Destaque</Label>
             </div>
 
             <div className="flex gap-2 pt-2">
               <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save Changes"}
+                {loading ? "Salvando..." : "Salvar Alterações"}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/admin/dashboard/projects")}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </form>

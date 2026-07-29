@@ -110,7 +110,7 @@ export function ProjectCard({
             className="gap-1.5"
           >
             <GitFork className="size-3.5" />
-            Code
+            Código
           </Button>
         )}
         {project.live_url && (
@@ -127,7 +127,7 @@ export function ProjectCard({
             className="gap-1.5"
           >
             <ExternalLink className="size-3.5" />
-            Live Demo
+            Demo Ao Vivo
           </Button>
         )}
       </CardFooter>

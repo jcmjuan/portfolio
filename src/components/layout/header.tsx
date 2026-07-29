@@ -9,10 +9,10 @@ import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { Button } from "@/components/ui/button"
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
+  { href: "/", label: "Início" },
+  { href: "/projects", label: "Projetos" },
   { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Contato" },
 ]
 
 function Header({ className, ...props }: React.ComponentProps<"header">) {

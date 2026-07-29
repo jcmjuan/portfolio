@@ -50,7 +50,7 @@ export function PostCard({ post, index = 0 }: { post: Post; index?: number }) {
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Calendar className="size-3.5" />
             <time dateTime={post.created_at}>
-              {new Date(post.created_at).toLocaleDateString("en-US", {
+              {new Date(post.created_at).toLocaleDateString("pt-BR", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",

@@ -22,7 +22,7 @@ export function PostDetailView({ post }: PostDetailViewProps) {
           className="gap-1.5"
         >
           <ArrowLeft className="size-4" />
-          Back to Blog
+            Voltar para o Blog
         </Button>
 
         {post.cover_image_url && (
@@ -43,7 +43,7 @@ export function PostDetailView({ post }: PostDetailViewProps) {
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="size-4" />
             <time dateTime={post.created_at}>
-              {new Date(post.created_at).toLocaleDateString("en-US", {
+              {new Date(post.created_at).toLocaleDateString("pt-BR", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -63,7 +63,7 @@ export function PostDetailView({ post }: PostDetailViewProps) {
             className="gap-2"
           >
             <ArrowLeft className="size-4" />
-            Back to Blog
+          Voltar para o Blog
           </Button>
         </div>
       </div>

@@ -18,16 +18,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Juan Carlos Matos | Full Stack Developer",
+    default: "Juan Carlos Matos | Desenvolvedor Full Stack",
     template: "%s | Juan Carlos Matos",
   },
   description:
-    "Full Stack Developer specializing in modern web technologies. Building elegant, performant, and user-centric applications.",
+    "Desenvolvedor Full Stack especializado em tecnologias web modernas. Construindo aplicações elegantes, performáticas e centradas no usuário.",
   keywords: [
-    "developer",
-    "portfolio",
+    "desenvolvedor",
+    "portfólio",
     "full stack",
-    "web development",
+    "desenvolvimento web",
     "react",
     "nextjs",
     "typescript",
@@ -35,17 +35,17 @@ export const metadata: Metadata = {
   authors: [{ name: "Juan Carlos Matos" }],
   openGraph: {
     type: "website",
-    locale: "en_US",
-    siteName: "Juan Carlos Matos Portfolio",
-    title: "Juan Carlos Matos | Full Stack Developer",
+    locale: "pt_BR",
+    siteName: "Portfólio de Juan Carlos Matos",
+    title: "Juan Carlos Matos | Desenvolvedor Full Stack",
     description:
-      "Full Stack Developer specializing in modern web technologies.",
+      "Desenvolvedor Full Stack especializado em tecnologias web modernas.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Juan Carlos Matos | Full Stack Developer",
+    title: "Juan Carlos Matos | Desenvolvedor Full Stack",
     description:
-      "Full Stack Developer specializing in modern web technologies.",
+      "Desenvolvedor Full Stack especializado em tecnologias web modernas.",
   },
   robots: {
     index: true,
@@ -60,7 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >

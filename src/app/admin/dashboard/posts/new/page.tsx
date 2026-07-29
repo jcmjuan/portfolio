@@ -55,19 +55,19 @@ export default function NewPostPage() {
       return;
     }
 
-    toast.success("Post created");
+    toast.success("Post criado");
     router.push("/admin/dashboard/posts");
   };
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="font-heading text-2xl font-semibold">New Post</h1>
+      <h1 className="font-heading text-2xl font-semibold">Novo Post</h1>
 
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={form.title}
@@ -87,7 +87,7 @@ export default function NewPostPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="excerpt">Excerpt</Label>
+              <Label htmlFor="excerpt">Resumo</Label>
               <Textarea
                 id="excerpt"
                 rows={3}
@@ -98,7 +98,7 @@ export default function NewPostPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="content">Content (Markdown)</Label>
+              <Label htmlFor="content">Conteúdo (Markdown)</Label>
               <Textarea
                 id="content"
                 rows={12}
@@ -123,19 +123,19 @@ export default function NewPostPage() {
                 onChange={(e) => updateField("published", e.target.checked)}
                 className="size-4 rounded border-input"
               />
-              <Label htmlFor="published">Published</Label>
+              <Label htmlFor="published">Publicado</Label>
             </div>
 
             <div className="flex gap-2 pt-2">
               <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Post"}
+                {loading ? "Criando..." : "Criar Post"}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/admin/dashboard/posts")}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </form>

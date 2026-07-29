@@ -52,7 +52,7 @@ export default function ProjectsPage() {
     setProjects((prev) =>
       prev.map((p) => (p.id === id ? { ...p, featured: !current } : p))
     );
-    toast.success("Updated");
+    toast.success("Atualizado");
   };
 
   const deleteProject = async (id: string) => {
@@ -65,7 +65,7 @@ export default function ProjectsPage() {
     }
 
     setProjects((prev) => prev.filter((p) => p.id !== id));
-    toast.success("Deleted");
+    toast.success("Excluído");
   };
 
   if (loading) {
@@ -79,10 +79,10 @@ export default function ProjectsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-heading text-2xl font-semibold">Projects</h1>
+        <h1 className="font-heading text-2xl font-semibold">Projetos</h1>
         <Button render={<Link href="/admin/dashboard/projects/new" />}>
           <Plus className="size-4" />
-          New Project
+          Novo Projeto
         </Button>
       </div>
 
@@ -92,10 +92,10 @@ export default function ProjectsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b text-left text-sm text-muted-foreground">
-                  <th className="p-3 font-medium">Title</th>
-                  <th className="p-3 font-medium">Featured</th>
-                  <th className="p-3 font-medium">Created</th>
-                  <th className="p-3 font-medium text-right">Actions</th>
+                  <th className="p-3 font-medium">Título</th>
+                  <th className="p-3 font-medium">Destaque</th>
+                  <th className="p-3 font-medium">Criado em</th>
+                  <th className="p-3 font-medium text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -106,7 +106,7 @@ export default function ProjectsPage() {
                       {project.featured ? (
                         <Badge variant="default">
                           <Star className="size-3" />
-                          Featured
+                          Destaque
                         </Badge>
                       ) : (
                         <Badge variant="secondary">Normal</Badge>
@@ -123,7 +123,7 @@ export default function ProjectsPage() {
                           onClick={() =>
                             toggleFeatured(project.id, project.featured)
                           }
-                          title="Toggle featured"
+                          title="Alternar destaque"
                         >
                           <Star
                             className={
@@ -154,23 +154,23 @@ export default function ProjectsPage() {
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Delete Project</DialogTitle>
+                              <DialogTitle>Excluir Projeto</DialogTitle>
                               <DialogDescription>
-                                Are you sure you want to delete &quot;{project.title}&quot;?
-                                This action cannot be undone.
+                                Tem certeza de que deseja excluir &quot;{project.title}&quot;?
+                                Esta ação não pode ser desfeita.
                               </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
                               <DialogClose
                                 render={<Button variant="outline" />}
                               >
-                                Cancel
+                                Cancelar
                               </DialogClose>
                               <Button
                                 variant="destructive"
                                 onClick={() => deleteProject(project.id)}
                               >
-                                Delete
+                                Excluir
                               </Button>
                             </DialogFooter>
                           </DialogContent>
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
                       colSpan={4}
                       className="p-8 text-center text-muted-foreground"
                     >
-                      No projects yet.
+                      Nenhum projeto ainda.
                     </td>
                   </tr>
                 )}

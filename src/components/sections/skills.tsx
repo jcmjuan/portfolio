@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge"
 
 const skillCategories = [
   {
-    title: "Languages",
+    title: "Linguagens",
     skills: ["TypeScript", "JavaScript", "Python", "SQL", "HTML", "CSS"],
   },
   {
@@ -14,7 +14,7 @@ const skillCategories = [
     skills: ["Node.js", "Express", "NestJS", "REST APIs", "GraphQL"],
   },
   {
-    title: "Database",
+    title: "Banco de Dados",
     skills: ["PostgreSQL", "MongoDB", "Redis", "Supabase"],
   },
   {
@@ -22,7 +22,7 @@ const skillCategories = [
     skills: ["Docker", "AWS", "Vercel", "GitHub Actions", "CI/CD"],
   },
   {
-    title: "Tools",
+    title: "Ferramentas",
     skills: ["Git", "VS Code", "Figma", "Linux", "Postman"],
   },
 ]
@@ -36,7 +36,7 @@ export function Skills() {
             Tech Stack & <span className="text-gradient">Skills</span>
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Technologies I work with to bring ideas to life
+            Tecnologias que utilizo para dar vida às ideias
           </p>
         </div>
 

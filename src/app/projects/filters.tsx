@@ -33,7 +33,7 @@ export function ProjectFilters({ tags, activeTag }: ProjectFiltersProps) {
         )}
         onClick={() => handleTagClick(null)}
       >
-        All
+        Todos
       </Badge>
       {tags.map((tag) => (
         <Badge

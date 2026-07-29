@@ -5,9 +5,9 @@ import { PostCard } from "@/components/blog/post-card"
 import type { Post } from "@/types"
 
 export const metadata: Metadata = {
-  title: "Blog | Portfolio",
+  title: "Blog | Portfólio",
   description:
-    "Thoughts on web development, design, and building things for the web.",
+    "Reflexões sobre desenvolvimento web, design e construção de coisas para a web.",
 }
 
 async function getAllPosts(): Promise<Post[]> {
@@ -52,8 +52,8 @@ export default async function BlogPage() {
             <span className="text-gradient">Blog</span>
           </h1>
           <p className="mt-3 text-muted-foreground">
-            Thoughts on web development, design, and building things for the
-            web.
+            Reflexões sobre desenvolvimento web, design e construção de coisas
+            para a web.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default async function BlogPage() {
 
         {posts.length === 0 && (
           <div className="py-12 text-center text-muted-foreground">
-            No posts yet. Check back soon!
+            Nenhum post ainda. Volte em breve!
           </div>
         )}
       </div>

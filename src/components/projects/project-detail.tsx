@@ -33,7 +33,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
           className="gap-1.5"
         >
           <ArrowLeft className="size-4" />
-          Back to Projects
+          Voltar para Projetos
         </Button>
 
         <div
@@ -86,7 +86,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
               className="gap-2"
             >
               <GitFork className="size-4" />
-              View Source
+              Ver Código
             </Button>
           )}
           {project.live_url && (
@@ -101,7 +101,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
               className="gap-2"
             >
               <ExternalLink className="size-4" />
-              Live Demo
+              Demo Ao Vivo
             </Button>
           )}
         </div>

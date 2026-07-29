@@ -15,18 +15,18 @@ export default function Home() {
       <section className="px-6 py-20">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Let&apos;s Work <span className="text-gradient">Together</span>
+            Vamos Trabalhar <span className="text-gradient">Juntos</span>
           </h2>
           <p className="text-muted-foreground">
-            Have a project in mind or just want to chat? I&apos;m always open
-            to discussing new opportunities and ideas.
+            Tem um projeto em mente ou só quer conversar? Estou sempre aberto
+            a discutir novas oportunidades e ideias.
           </p>
           <Button
             render={<Link href="/contact" />}
             variant="default"
             className="glow-cyan gap-2 px-6"
           >
-            Get in Touch
+            Fale Comigo
             <ArrowRight className="size-4" />
           </Button>
         </div>

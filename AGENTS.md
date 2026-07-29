@@ -22,10 +22,16 @@ src/
 │   ├── projects/
 │   │   ├── page.tsx            # Listagem de projetos com filtro por tags
 │   │   ├── filters.tsx         # Client: badges de filtro (?tag= URL params)
-│   │   └── [slug]/page.tsx     # Detalhe do projeto (MD renderizado)
+│   │   └── [slug]/
+│   │       ├── page.tsx        # Detalhe do projeto (force-dynamic)
+│   │       ├── loading.tsx     # Loading skeleton
+│   │       └── error.tsx       # Error boundary
 │   ├── blog/
 │   │   ├── page.tsx            # Listagem de posts publicados
-│   │   └── [slug]/page.tsx     # Detalhe do post (MdRenderer)
+│   │   └── [slug]/
+│   │       ├── page.tsx        # Detalhe do post (force-dynamic)
+│   │       ├── loading.tsx     # Loading skeleton
+│   │       └── error.tsx       # Error boundary
 │   ├── contact/page.tsx        # Formulário de contato (EmailJS)
 │   └── admin/
 │       ├── page.tsx            # Redirect server-side → /admin/dashboard
@@ -38,10 +44,10 @@ src/
 ├── components/
 │   ├── layout/                 # Header (sticky, mobile hamburger), Footer, ThemeToggle
 │   ├── sections/               # Hero, Skills, FeaturedProjects (home page)
-│   ├── projects/               # ProjectCard
-│   ├── blog/                   # PostCard, MdRenderer (react-markdown)
+│   ├── projects/               # ProjectCard, ProjectDetailView ("use client")
+│   ├── blog/                   # PostCard, PostDetailView ("use client"), MdRenderer (react-markdown)
 │   ├── contact/                # ContactForm (react-hook-form + zod)
-│   ├── admin/                  # AdminShell (sidebar + logout)
+│   ├── admin/                  # AdminShell (sidebar + logout), ImageUpload
 │   ├── providers/              # ThemeProvider (next-themes), AuthProvider (Supabase)
 │   └── ui/                     # 11 componentes Shadcn (button, card, input, etc.)
 ├── lib/
@@ -61,9 +67,9 @@ src/
 |---|---|---|
 | `/` | Static | Home (Hero + Skills + Featured Projects) |
 | `/projects` | Dynamic | Lista de projetos com filtro por tags |
-| `/projects/[slug]` | SSG | Detalhe do projeto (MD renderizado) |
+| `/projects/[slug]` | Dynamic | Detalhe do projeto (force-dynamic) |
 | `/blog` | Dynamic | Lista de posts publicados |
-| `/blog/[slug]` | SSG | Detalhe do post (MD com syntax highlight) |
+| `/blog/[slug]` | Dynamic | Detalhe do post (force-dynamic) |
 | `/contact` | Static | Formulário de contato (EmailJS) |
 | `/admin` | Dynamic | Redirect → /admin/dashboard |
 | `/admin/login` | Dynamic | Login via Supabase Auth |
@@ -83,10 +89,13 @@ src/
 - **Projetos com filtro** por tags via URL params
 - **Área admin completa** com auth Supabase + CRUD projetos e posts
 - **Middleware** protegendo rotas /admin/* (redireciona para login)
-- **SEO** (generateMetadata, generateStaticParams)
+- **SEO** (generateMetadata)
 - **Loading skeletons** em páginas de listing
 - **Toast notifications** via sonner
 - **Responsivo** com mobile hamburger menu no header
+- **Supabase Storage** configurado (bucket `images` com policies de read/insert/delete)
+- **Admin login redirect** — usuários logados são redirecionados para o dashboard
+- **RLS completo** — posts e projetos com policies para leitura pública e escrita autenticada; posts têm policy adicional para admins lerem drafts
 
 ## Variáveis de Ambiente (.env.local)
 
@@ -110,10 +119,10 @@ Variáveis usadas no template:
 ## Supabase Schema (supabase/schema.sql)
 
 Tabelas:
-- **projects**: id, title, description, long_description (MD), image_url, tags (text[]), featured, live_url, github_url, created_at
-- **posts**: id, title, slug, excerpt, content (MD), published, created_at, updated_at
+- **projects**: id, title, slug, description, full_content (MD), image_url, tags (text[]), featured, live_url, repo_url, cover_image_url, created_at
+- **posts**: id, title, slug, excerpt, content (MD), cover_image_url, published, created_at
 
-RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados.
+RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados. Posts têm policy adicional para admins lerem drafts.
 
 ## Status Atual
 
@@ -122,6 +131,10 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados.
 - **Deploy:** ✅ funcionando na Vercel
 - **Admin login:** ✅ corrigido com `window.location.href` (força reload para cookie disponível ao middleware)
 - **Email:** ✅ formulário funcional com EmailJS
+- **Supabase Storage:** ✅ bucket `images` com policies configuradas
+- **Detail pages:** ✅ corrigidas (SSG → dynamic para compatibilidade com Supabase SSR)
+- **RLS posts:** ✅ admins podem ler todos os posts (incluindo drafts)
+- **Admin login redirect:** ✅ usuários logados redirecionados para dashboard
 
 ## Pendências / Melhorias Futuras
 
@@ -153,3 +166,4 @@ npm run dev
 - Repo GitHub já criado (fazer push com mudanças recentes)
 - Deploy automático na Vercel a cada push no GitHub
 - Shadcn base-nova usa `@base-ui/react` (não Radix) — componentes usam `render` prop para Links
+- Páginas de detalhe (`/projects/[slug]`, `/blog/[slug]`) são dynamic (force-dynamic) — não converter para SSG

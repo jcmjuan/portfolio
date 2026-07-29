@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/dashboard/projects", label: "Projects", icon: FolderKanban },
+  { href: "/admin/dashboard", label: "Painel", icon: LayoutDashboard },
+  { href: "/admin/dashboard/projects", label: "Projetos", icon: FolderKanban },
   { href: "/admin/dashboard/posts", label: "Posts", icon: FileText },
 ];
 
@@ -84,7 +84,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             onClick={handleLogout}
           >
             <LogOut className="size-4" />
-            Logout
+            Sair
           </Button>
         </div>
       </aside>

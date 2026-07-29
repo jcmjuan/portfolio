@@ -58,17 +58,17 @@ export async function FeaturedProjects() {
       <div className="mx-auto max-w-6xl space-y-12">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Featured <span className="text-gradient">Projects</span>
+            <span className="text-gradient">Projetos</span> em Destaque
           </h2>
           <p className="mt-3 text-muted-foreground">
-            A selection of projects I&apos;ve built and shipped
+            Uma seleção de projetos que desenvolvi e lancei
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.length === 0 && (
             <p className="col-span-full py-12 text-center text-muted-foreground">
-              Coming soon — projects will appear here soon.
+              Em breve — os projetos aparecerão aqui.
             </p>
           )}
           {projects.map((project, index) => (
@@ -132,7 +132,7 @@ export async function FeaturedProjects() {
                     className="gap-1.5"
                   >
                     <GitFork className="size-3.5" />
-                    Code
+                    Código
                   </Button>
                 )}
                 {project.live_url && (
@@ -149,7 +149,7 @@ export async function FeaturedProjects() {
                     className="gap-1.5"
                   >
                     <ExternalLink className="size-3.5" />
-                    Live Demo
+                    Demo Ao Vivo
                   </Button>
                 )}
               </CardFooter>
@@ -159,7 +159,7 @@ export async function FeaturedProjects() {
 
         <div className="text-center">
           <Button render={<Link href="/projects" />} variant="outline" className="gap-2 px-6">
-            View All Projects
+            Ver Todos os Projetos
             <ExternalLink className="size-4" />
           </Button>
         </div>

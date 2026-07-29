@@ -51,12 +51,12 @@ export function ImageUpload({
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
+      toast.error("Por favor, selecione um arquivo de imagem");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image must be less than 5MB");
+      toast.error("A imagem deve ter menos de 5MB");
       return;
     }
 
@@ -106,7 +106,7 @@ export function ImageUpload({
             <Upload className="size-8" />
           )}
           <span className="text-sm">
-            {uploading ? "Uploading..." : "Click to upload"}
+            {uploading ? "Enviando..." : "Clique para enviar"}
           </span>
           <span className="text-xs">PNG, JPG, WebP up to 5MB</span>
         </button>

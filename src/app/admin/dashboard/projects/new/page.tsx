@@ -68,19 +68,19 @@ export default function NewProjectPage() {
       return;
     }
 
-    toast.success("Project created");
+    toast.success("Projeto criado");
     router.push("/admin/dashboard/projects");
   };
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="font-heading text-2xl font-semibold">New Project</h1>
+      <h1 className="font-heading text-2xl font-semibold">Novo Projeto</h1>
 
       <Card>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={form.title}
@@ -100,7 +100,7 @@ export default function NewProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Descrição</Label>
               <Input
                 id="description"
                 value={form.description}
@@ -110,7 +110,7 @@ export default function NewProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="full_content">Full Content (Markdown)</Label>
+              <Label htmlFor="full_content">Conteúdo Completo (Markdown)</Label>
               <Textarea
                 id="full_content"
                 rows={10}
@@ -121,7 +121,7 @@ export default function NewProjectPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="tags">Tags (comma-separated)</Label>
+              <Label htmlFor="tags">Tags (separadas por vírgula)</Label>
               <Input
                 id="tags"
                 value={form.tags}
@@ -165,19 +165,19 @@ export default function NewProjectPage() {
                 onChange={(e) => updateField("featured", e.target.checked)}
                 className="size-4 rounded border-input"
               />
-              <Label htmlFor="featured">Featured</Label>
+              <Label htmlFor="featured">Destaque</Label>
             </div>
 
             <div className="flex gap-2 pt-2">
               <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Project"}
+                {loading ? "Criando..." : "Criar Projeto"}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/admin/dashboard/projects")}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </form>

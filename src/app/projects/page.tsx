@@ -7,9 +7,9 @@ import { ProjectFilters } from "./filters"
 import type { Project } from "@/types"
 
 export const metadata: Metadata = {
-  title: "Projects | Portfolio",
+  title: "Projetos | Portfólio",
   description:
-    "Browse my collection of projects — web apps, tools, and experiments built with modern technologies.",
+    "Explore minha coleção de projetos — aplicações web, ferramentas e experimentos construídos com tecnologias modernas.",
 }
 
 async function getAllProjects(): Promise<Project[]> {
@@ -56,10 +56,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       <div className="mx-auto max-w-6xl space-y-12">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Projects
+            Projetos
           </h1>
           <p className="mt-3 text-muted-foreground">
-            A collection of projects I&apos;ve built and shipped
+            Uma coleção de projetos que desenvolvi e lancei
           </p>
         </div>
 
@@ -77,8 +77,8 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           <div className="py-12 text-center">
             <p className="text-muted-foreground">
               {tag
-                ? "No projects found with the selected tag."
-                : "No projects yet — check back soon!"}
+                ? "Nenhum projeto encontrado com a tag selecionada."
+                : "Nenhum projeto ainda — volte em breve!"}
             </p>
           </div>
         )}

@@ -15,10 +15,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  subject: z.string().min(3, "Subject must be at least 3 characters"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres"),
+  email: z.string().email("Por favor, insira um endereço de e-mail válido"),
+  subject: z.string().min(3, "O assunto deve ter pelo menos 3 caracteres"),
+  message: z.string().min(10, "A mensagem deve ter pelo menos 10 caracteres"),
 })
 
 export function ContactForm() {
@@ -37,13 +37,13 @@ export function ContactForm() {
     setIsSubmitting(true)
     try {
       await sendContactEmail(data)
-      toast.success("Message sent!", {
-        description: "Thanks for reaching out. I'll get back to you soon.",
+      toast.success("Mensagem enviada!", {
+        description: "Obrigado pelo contato. Retornarei em breve.",
       })
       reset()
     } catch {
-      toast.error("Failed to send message", {
-        description: "Something went wrong. Please try again later.",
+      toast.error("Falha ao enviar mensagem", {
+        description: "Algo deu errado. Por favor, tente novamente mais tarde.",
       })
     } finally {
       setIsSubmitting(false)
@@ -53,10 +53,10 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nome</Label>
         <Input
           id="name"
-          placeholder="Your name"
+          placeholder="Seu nome"
           {...register("name")}
         />
         {errors.name && (
@@ -65,7 +65,7 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">E-mail</Label>
         <Input
           id="email"
           type="email"
@@ -78,10 +78,10 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="subject">Subject</Label>
+        <Label htmlFor="subject">Assunto</Label>
         <Input
           id="subject"
-          placeholder="What is this about?"
+          placeholder="Sobre o que se trata?"
           {...register("subject")}
         />
         {errors.subject && (
@@ -90,10 +90,10 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
+        <Label htmlFor="message">Mensagem</Label>
         <Textarea
           id="message"
-          placeholder="Your message..."
+          placeholder="Sua mensagem..."
           rows={5}
           {...register("message")}
         />
@@ -106,10 +106,10 @@ export function ContactForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" />
-            Sending...
+            Enviando...
           </>
         ) : (
-          "Send Message"
+          "Enviar Mensagem"
         )}
       </Button>
     </form>

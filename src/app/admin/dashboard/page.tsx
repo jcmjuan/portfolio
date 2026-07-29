@@ -66,15 +66,15 @@ export default function DashboardPage() {
   }, []);
 
   const cards = [
-    { title: "Total Projects", value: stats.totalProjects, icon: FolderKanban },
-    { title: "Total Posts", value: stats.totalPosts, icon: FileText },
-    { title: "Featured Projects", value: stats.featuredProjects, icon: Star },
-    { title: "Published Posts", value: stats.publishedPosts, icon: Send },
+    { title: "Total de Projetos", value: stats.totalProjects, icon: FolderKanban },
+    { title: "Total de Posts", value: stats.totalPosts, icon: FileText },
+    { title: "Projetos em Destaque", value: stats.featuredProjects, icon: Star },
+    { title: "Posts Publicados", value: stats.publishedPosts, icon: Send },
   ];
 
   return (
     <div className="space-y-6">
-      <h1 className="font-heading text-2xl font-semibold">Dashboard</h1>
+      <h1 className="font-heading text-2xl font-semibold">Painel</h1>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
@@ -96,13 +96,13 @@ export default function DashboardPage() {
 
       <div className="flex gap-3">
         <Button render={<Link href="/admin/dashboard/projects/new" />}>
-          New Project
+          Novo Projeto
         </Button>
         <Button
           render={<Link href="/admin/dashboard/posts/new" />}
           variant="outline"
         >
-          New Post
+          Novo Post
         </Button>
       </div>
     </div>
