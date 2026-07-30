@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowLeft, Calendar } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -27,10 +28,13 @@ export function PostDetailView({ post }: PostDetailViewProps) {
 
         {post.cover_image_url && (
           <div className="relative overflow-hidden rounded-xl">
-            <img
+            <Image
               src={post.cover_image_url}
               alt={post.title}
+              width={1200}
+              height={320}
               className="h-64 w-full object-cover sm:h-80"
+              priority
             />
           </div>
         )}

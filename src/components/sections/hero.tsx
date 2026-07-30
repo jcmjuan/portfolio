@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { ArrowRight, Mail, User } from "lucide-react"
 import { Badge } from "@/components/ui/badge"

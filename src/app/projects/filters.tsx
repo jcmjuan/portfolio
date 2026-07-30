@@ -23,6 +23,13 @@ export function ProjectFilters({ tags, activeTag }: ProjectFiltersProps) {
     router.push(`/projects${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false })
   }
 
+  function handleKeyDown(e: React.KeyboardEvent, tag: string | null) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      handleTagClick(tag)
+    }
+  }
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
       <Badge
@@ -31,7 +38,10 @@ export function ProjectFilters({ tags, activeTag }: ProjectFiltersProps) {
           "cursor-pointer transition-colors hover:bg-primary/10",
           !activeTag && "bg-primary/10"
         )}
+        role="button"
+        tabIndex={0}
         onClick={() => handleTagClick(null)}
+        onKeyDown={(e) => handleKeyDown(e, null)}
       >
         Todos
       </Badge>
@@ -43,7 +53,10 @@ export function ProjectFilters({ tags, activeTag }: ProjectFiltersProps) {
             "cursor-pointer transition-colors hover:bg-primary/10",
             activeTag === tag && "bg-primary/10"
           )}
+          role="button"
+          tabIndex={0}
           onClick={() => handleTagClick(tag)}
+          onKeyDown={(e) => handleKeyDown(e, tag)}
         >
           {tag}
         </Badge>

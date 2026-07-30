@@ -12,26 +12,11 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/server"
+import { getGradient } from "@/lib/utils"
 import type { Project } from "@/types"
-
-function getGradients(index: number) {
-  const gradients = [
-    "from-cyan-500/20 to-violet-500/20",
-    "from-violet-500/20 to-cyan-500/20",
-    "from-cyan-500/10 via-violet-500/10 to-cyan-500/20",
-  ]
-  return gradients[index % gradients.length]
-}
 
 async function getFeaturedProjects(): Promise<Project[]> {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      return []
-    }
-
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("projects")
@@ -78,7 +63,7 @@ export async function FeaturedProjects() {
                 className="block"
               >
                 <div
-                  className={`relative flex h-40 items-center justify-center bg-gradient-to-br ${getGradients(index)}`}
+                  className={`relative flex h-40 items-center justify-center bg-gradient-to-br ${getGradient(index)}`}
                 >
                   {project.cover_image_url ? (
                     <Image

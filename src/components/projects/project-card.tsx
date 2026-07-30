@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import { ExternalLink, GitFork } from "lucide-react"
@@ -14,17 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { cn, getGradient } from "@/lib/utils"
 import type { Project } from "@/types"
-
-function getGradient(index: number) {
-  const gradients = [
-    "from-cyan-500/20 to-violet-500/20",
-    "from-violet-500/20 to-cyan-500/20",
-    "from-cyan-500/10 via-violet-500/10 to-cyan-500/20",
-  ]
-  return gradients[index % gradients.length]
-}
 
 interface ProjectCardProps {
   project: Project

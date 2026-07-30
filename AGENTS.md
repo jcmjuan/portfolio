@@ -16,7 +16,7 @@
 src/
 ├── app/
 │   ├── layout.tsx              # Root layout: fonts, ThemeProvider, Header, Footer, Toaster
-│   ├── page.tsx                # Home: Hero + Skills + Featured Projects + Contact CTA
+│   ├── page.tsx                # Home: Hero + Services + Featured Projects + About + Testimonials + Skills + CTA
 │   ├── globals.css             # Dark theme (cyan/violet), prose-custom, utilitários
 │   ├── not-found.tsx           # Página 404 customizada
 │   ├── projects/
@@ -43,7 +43,7 @@ src/
 │           └── posts/          # CRUD: list, new, [id]/edit
 ├── components/
 │   ├── layout/                 # Header (sticky, mobile hamburger), Footer, ThemeToggle
-│   ├── sections/               # Hero, Skills, FeaturedProjects (home page)
+│   ├── sections/               # Hero, Services, Skills, FeaturedProjects, About, Testimonials (home page)
 │   ├── projects/               # ProjectCard, ProjectDetailView ("use client")
 │   ├── blog/                   # PostCard, PostDetailView ("use client"), MdRenderer (react-markdown)
 │   ├── contact/                # ContactForm (react-hook-form + zod)
@@ -65,7 +65,7 @@ src/
 
 | Rota | Tipo | Descrição |
 |---|---|---|
-| `/` | Static | Home (Hero + Skills + Featured Projects) |
+| `/` | Static | Home (Hero + Services + Featured Projects + About + Testimonials + Skills) |
 | `/projects` | Dynamic | Lista de projetos com filtro por tags |
 | `/projects/[slug]` | Dynamic | Detalhe do projeto (force-dynamic) |
 | `/blog` | Dynamic | Lista de posts publicados |
@@ -83,6 +83,11 @@ src/
 
 ## Features Implementadas
 
+- **Foco freelancer** — site voltado para clientes, não recrutadores
+- **Hero com foto** — placeholder de foto com ícone User (tamanhos responsivos: 96px mobile, 128px tablet, 160px desktop)
+- **Seção de Serviços** — 4 cards: Sites Institucionais, Aplicações Web, E-commerce, Landing Pages
+- **Seção Sobre Mim** — formação acadêmica (Técnico, Graduação, Ciência da Computação) com layout em 2 colunas alinhadas
+- **Seção de Depoimentos** — 3 cards placeholder para depoimentos de clientes
 - **Dark/Light mode** via next-themes (dark default)
 - **Formulário de contato** com react-hook-form + zod + EmailJS
 - **Blog com Markdown** (react-markdown + remark-gfm + rehype-highlight + rehype-raw)
@@ -139,6 +144,7 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados. Po
 - **Admin login redirect:** ✅ usuários logados redirecionados para dashboard
 - **Tradução pt-BR:** ✅ toda a interface traduzida para português brasileiro
 - **Slug automático:** ✅ slug sempre gerada a partir do título (criação e edição)
+- **Home page freelancer:** ✅ reestruturada com foco em clientes (Hero + Services + FeaturedProjects + About + Testimonials + Skills)
 
 ## Pendências / Melhorias Futuras
 
@@ -148,6 +154,8 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados. Po
 - [ ] Configurar Supabase Storage para imagens de projetos/posts
 - [ ] Adicionar página de detalhe para `/admin` (atualmente é só redirect)
 - [ ] Internacionalizar conteúdo dinâmico (títulos e descrições de projetos/posts no banco)
+- [ ] Substituir placeholder de foto no Hero por next/image com foto real
+- [ ] Adicionar depoimentos reais na seção de Testimonials
 
 ## Como Rodar
 
@@ -174,3 +182,7 @@ npm run dev
 - Páginas de detalhe (`/projects/[slug]`, `/blog/[slug]`) são dynamic (force-dynamic) — não converter para SSG
 - Interface toda em pt-BR (labels, botões, toasts, metadata SEO, lang="pt-BR")
 - Slug sempre auto-gerada a partir do título — editável manualmente depois de gerada
+- Home page reestruturada para foco freelancer (clientes > recrutadores)
+- Componentes sections: Hero (com foto placeholder), Services, FeaturedProjects, About, Testimonials, Skills
+- Foto do Hero: placeholder circular com ícone User, futuramente substituir por next/image
+- Depoimentos: 3 cards placeholder, aguardando seleção de depoimentos reais

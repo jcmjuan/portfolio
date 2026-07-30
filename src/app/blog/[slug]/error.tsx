@@ -14,13 +14,13 @@ export default function BlogPostError({
     <section className="px-6 py-20">
       <div className="mx-auto max-w-3xl space-y-6 text-center">
         <AlertTriangle className="mx-auto size-12 text-red-500" />
-        <h1 className="text-2xl font-bold">Something went wrong</h1>
+        <h1 className="text-2xl font-bold">Algo deu errado</h1>
         <p className="text-muted-foreground">
-          {error.message || "An unexpected error occurred."}
+          {error.message || "Ocorreu um erro inesperado."}
         </p>
         {error.digest && (
           <p className="text-sm text-muted-foreground/60">
-            Error ID: {error.digest}
+            ID do Erro: {error.digest}
           </p>
         )}
         <div className="flex justify-center gap-3">
@@ -28,13 +28,13 @@ export default function BlogPostError({
             onClick={reset}
             className="inline-flex items-center justify-center rounded-lg border border-transparent bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
           >
-            Try Again
+            Tentar Novamente
           </button>
           <Link
             href="/blog"
             className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
           >
-            Back to Blog
+            Voltar para o Blog
           </Link>
         </div>
       </div>

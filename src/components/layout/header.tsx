@@ -62,6 +62,7 @@ function Header({ className, ...props }: React.ComponentProps<"header">) {
             className="md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </Button>

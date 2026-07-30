@@ -9,14 +9,6 @@ export const dynamic = "force-dynamic"
 
 async function getProject(slug: string): Promise<Project | null> {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      console.error("[getProject] Missing Supabase env vars")
-      return null
-    }
-
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("projects")
@@ -51,11 +43,11 @@ export async function generateMetadata({
   const project = await getProject(slug)
 
   if (!project) {
-    return { title: "Project Not Found" }
+    return { title: "Projeto Não Encontrado" }
   }
 
   return {
-    title: `${project.title} | Projects`,
+    title: `${project.title} | Projetos`,
     description: project.description,
   }
 }

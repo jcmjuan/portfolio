@@ -9,13 +9,6 @@ export const dynamic = "force-dynamic"
 
 async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      return null
-    }
-
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("posts")
@@ -43,7 +36,7 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug)
 
   if (!post) {
-    return { title: "Post Not Found" }
+    return { title: "Post Não Encontrado" }
   }
 
   return {

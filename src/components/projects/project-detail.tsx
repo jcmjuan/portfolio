@@ -7,16 +7,8 @@ import Markdown from "react-markdown"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { getGradient } from "@/lib/utils"
 import type { Project } from "@/types"
-
-function getGradient(index: number) {
-  const gradients = [
-    "from-cyan-500/20 to-violet-500/20",
-    "from-violet-500/20 to-cyan-500/20",
-    "from-cyan-500/10 via-violet-500/10 to-cyan-500/20",
-  ]
-  return gradients[index % gradients.length]
-}
 
 interface ProjectDetailViewProps {
   project: Project

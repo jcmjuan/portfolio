@@ -1,18 +1,9 @@
-"use client"
-
 import Link from "next/link"
+import Image from "next/image"
 import { Calendar } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { getGradient } from "@/lib/utils"
 import type { Post } from "@/types"
-
-function getGradients(index: number) {
-  const gradients = [
-    "from-cyan-500/20 to-violet-500/20",
-    "from-violet-500/20 to-cyan-500/20",
-    "from-cyan-500/10 via-violet-500/10 to-cyan-500/20",
-  ]
-  return gradients[index % gradients.length]
-}
 
 export function PostCard({ post, index = 0 }: { post: Post; index?: number }) {
   return (
@@ -20,16 +11,18 @@ export function PostCard({ post, index = 0 }: { post: Post; index?: number }) {
       <Card className="group/card overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-cyan/30 hover:-translate-y-1">
         {post.cover_image_url ? (
           <div className="relative h-48 overflow-hidden">
-            <img
+            <Image
               src={post.cover_image_url}
               alt={post.title}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+              fill
+              className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
           </div>
         ) : (
           <div
-            className={`flex h-40 items-center justify-center bg-gradient-to-br ${getGradients(index)}`}
+            className={`flex h-40 items-center justify-center bg-gradient-to-br ${getGradient(index)}`}
           >
             <span className="text-4xl font-bold text-muted-foreground/20">
               {post.title.charAt(0)}

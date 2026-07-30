@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 
 async function getAllPosts(): Promise<Post[]> {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!url || !key) {
-      return []
-    }
-
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("posts")
