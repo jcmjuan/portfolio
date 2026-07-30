@@ -8,4 +8,19 @@ const envSchema = z.object({
   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: z.string().min(1, "NEXT_PUBLIC_EMAILJS_PUBLIC_KEY is required"),
 });
 
-export const env = envSchema.parse(process.env);
+type Env = z.infer<typeof envSchema>;
+
+let _env: Env | null = null;
+
+function getEnv(): Env {
+  if (!_env) {
+    _env = envSchema.parse(process.env);
+  }
+  return _env;
+}
+
+export const env: Env = new Proxy({} as Env, {
+  get(_, key) {
+    return getEnv()[key as keyof Env];
+  },
+});
