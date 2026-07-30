@@ -21,11 +21,13 @@ const cache: Partial<Env> = {};
 
 export const env: Env = new Proxy({} as Env, {
   get(_, key) {
+    if (typeof key !== "string") return undefined;
+
     const k = key as EnvKey;
     if (k in cache) return cache[k] as string;
 
     const validator = validators[k];
-    if (!validator) throw new Error(`Unknown env key: ${String(key)}`);
+    if (!validator) return undefined;
 
     const result = validator.safeParse(process.env[k]);
     if (!result.success) throw new Error(result.error.issues[0].message);
