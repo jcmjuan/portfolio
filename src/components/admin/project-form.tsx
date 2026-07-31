@@ -1,0 +1,176 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { ImageUpload } from "@/components/admin/image-upload";
+import { slugify } from "@/lib/utils";
+import type { ProjectFormValues } from "@/types";
+
+const emptyValues: ProjectFormValues = {
+  title: "",
+  slug: "",
+  description: "",
+  full_content: "",
+  tags: "",
+  repo_url: "",
+  live_url: "",
+  cover_image_url: "",
+  featured: false,
+};
+
+interface ProjectFormProps {
+  initialValues?: ProjectFormValues;
+  submitLabel: string;
+  submittingLabel: string;
+  cancelHref: string;
+  onSubmit: (values: ProjectFormValues) => Promise<void>;
+}
+
+export function ProjectForm({
+  initialValues,
+  submitLabel,
+  submittingLabel,
+  cancelHref,
+  onSubmit,
+}: ProjectFormProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState<ProjectFormValues>(
+    initialValues ?? emptyValues
+  );
+
+  const updateField = (field: keyof ProjectFormValues, value: string | boolean) => {
+    setForm((prev) => {
+      const next = { ...prev, [field]: value };
+      if (field === "title") {
+        next.slug = slugify(value as string);
+      }
+      return next;
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await onSubmit(form);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Card>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Título</Label>
+            <Input
+              id="title"
+              value={form.title}
+              onChange={(e) => updateField("title", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="slug">Slug</Label>
+            <Input
+              id="slug"
+              value={form.slug}
+              onChange={(e) => updateField("slug", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Descrição</Label>
+            <Input
+              id="description"
+              value={form.description}
+              onChange={(e) => updateField("description", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="full_content">Conteúdo Completo (Markdown)</Label>
+            <Textarea
+              id="full_content"
+              rows={10}
+              value={form.full_content}
+              onChange={(e) => updateField("full_content", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="tags">Tags (separadas por vírgula)</Label>
+            <Input
+              id="tags"
+              value={form.tags}
+              onChange={(e) => updateField("tags", e.target.value)}
+              placeholder="nextjs, react, typescript"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="repo_url">Repo URL</Label>
+            <Input
+              id="repo_url"
+              value={form.repo_url}
+              onChange={(e) => updateField("repo_url", e.target.value)}
+              placeholder="https://github.com/..."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="live_url">Live URL</Label>
+            <Input
+              id="live_url"
+              value={form.live_url}
+              onChange={(e) => updateField("live_url", e.target.value)}
+              placeholder="https://..."
+            />
+          </div>
+
+          <ImageUpload
+            value={form.cover_image_url}
+            onChange={(url) => updateField("cover_image_url", url)}
+            folder="projects"
+            label="Cover Image"
+          />
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="featured"
+              checked={form.featured}
+              onChange={(e) => updateField("featured", e.target.checked)}
+              className="size-4 rounded border-input"
+            />
+            <Label htmlFor="featured">Destaque</Label>
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button type="submit" disabled={loading}>
+              {loading ? submittingLabel : submitLabel}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push(cancelHref)}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}

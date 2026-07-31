@@ -49,28 +49,29 @@ src/
 │   ├── projects/               # ProjectCard (server component), ProjectDetailView ("use client")
 │   ├── blog/                   # PostCard (server component), PostDetailView ("use client" + next/image), MdRenderer (react-markdown)
 │   ├── contact/                # ContactForm (react-hook-form + zod)
-│   ├── admin/                  # AdminShell (sidebar + logout), ImageUpload
+│   ├── admin/                  # AdminShell (sidebar + logout), ImageUpload, ProjectForm, PostForm
 │   ├── providers/              # ThemeProvider (next-themes), AuthProvider (Supabase)
-│   └── ui/                     # 11 componentes Shadcn (button, card, input, etc.)
+│   └── ui/                     # 7 componentes Shadcn (button, card, input, label, textarea, badge, dialog)
 ├── lib/
 │   ├── env.ts                  # Server-side env validation (Proxy + zod, SOMENTE server-side)
 │   ├── supabase/client.ts      # Browser client (createBrowserClient, process.env direto)
 │   ├── supabase/server.ts      # Server client (async cookies, usa env.ts)
+│   ├── supabase/public.ts      # Server client SEM cookies p/ leituras públicas (permite ISR)
 │   ├── supabase/admin.ts       # Service role client (server-only, usa env.ts)
 │   ├── emailjs.ts              # sendContactEmail wrapper (process.env direto)
 │   └── utils.ts                # cn, formatDate (pt-BR), slugify, getGradient
 ├── types/index.ts              # Project, Post, ContactFormValues, etc.
-└── middleware.ts                # Proteção de rotas /admin/* (deprecated → proxy, usa env.ts)
+└── proxy.ts                    # Proteção de rotas /admin/* (convenção Next.js 16, usa env.ts)
 ```
 
 ## Rotas
 
 | Rota | Tipo | Descrição |
 |---|---|---|
-| `/` | Static | Home (Hero + Services + Featured Projects + About + Testimonials + Skills) |
+| `/` | Static (ISR 1h) | Home (Hero + Services + Featured Projects + About + Testimonials + Skills) |
 | `/projects` | Dynamic | Lista de projetos com filtro por tags |
 | `/projects/[slug]` | Dynamic | Detalhe do projeto (force-dynamic) |
-| `/blog` | Dynamic | Lista de posts publicados |
+| `/blog` | Static (ISR 1h) | Lista de posts publicados |
 | `/blog/[slug]` | Dynamic | Detalhe do post (force-dynamic) |
 | `/contact` | Static | Formulário de contato (EmailJS) |
 | `/admin` | Dynamic | Redirect → /admin/dashboard |
@@ -91,18 +92,18 @@ src/
 - **Seção Sobre Mim** — formação acadêmica (Técnico, Graduação, Ciência da Computação) com layout em 2 colunas alinhadas
 - **Seção de Depoimentos** — 3 cards placeholder para depoimentos de clientes
 - **Dark/Light mode** via next-themes (dark default)
-- **Formulário de contato** com react-hook-form + zod + EmailJS
-- **Blog com Markdown** (react-markdown + remark-gfm + rehype-highlight + rehype-raw)
+- **Formulário de contato** com react-hook-form + zod + EmailJS (+ honeypot anti-spam + cooldown de 60s)
+- **Blog com Markdown** (react-markdown + remark-gfm + rehype-highlight)
 - **Projetos com filtro** por tags via URL params (acessível: role="button", tabIndex, onKeyDown)
 - **Área admin completa** com auth Supabase + CRUD projetos e posts
-- **Middleware** protegendo rotas /admin/* (redireciona para login)
+- **Middleware (proxy.ts)** protegendo rotas /admin/* (redireciona para login)
 - **SEO** (generateMetadata) — todos os textos e metadata em pt-BR
 - **Loading skeletons** em páginas de listing
 - **Toast notifications** via sonner (mensagens em português)
 - **Responsivo** com mobile hamburger menu no header (com aria-expanded)
 - **Supabase Storage** configurado (bucket `images` com policies de read/insert/delete)
 - **Admin login redirect** — usuários logados são redirecionados para o dashboard
-- **RLS completo** — usa `auth.uid() IS NOT NULL` (moderno, não deprecated); posts têm policy adicional para admins lerem drafts
+- **RLS completo** — leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid() = '<uid-admin>'`)
 - **Conteúdo em português brasileiro** — toda a interface traduzida para pt-BR
 - **Slug automático** — slug sempre gerada automaticamente a partir do título
 - **Segurança** — headers HTTP (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
@@ -122,7 +123,7 @@ src/
 | `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | EmailJS → Email Templates → Template ID |
 | `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | EmailJS → Account → Public Key |
 
-**Nota sobre env.ts:** O validador com Proxy (`src/lib/env.ts`) é SOMENTE para código server-side (middleware, server.ts, admin.ts). Código client-side (supabase/client.ts, emailjs.ts) usa `process.env.X!` diretamente porque o Proxy quebra no bundle do Next.js no browser (intercepta Symbols internos do React).
+**Nota sobre env.ts:** O validador com Proxy (`src/lib/env.ts`) é SOMENTE para código server-side (proxy, server.ts, public.ts, admin.ts). Código client-side (supabase/client.ts, emailjs.ts) usa `process.env.X!` diretamente porque o Proxy quebra no bundle do Next.js no browser (intercepta Symbols internos do React).
 
 ## EmailJS Template
 
@@ -142,7 +143,7 @@ Tabelas:
 - `idx_projects_slug`, `idx_projects_featured`, `idx_projects_created_at` (DESC)
 - `idx_posts_slug`, `idx_posts_published`, `idx_posts_published_created` (published + created_at DESC)
 
-RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados (`auth.uid() IS NOT NULL`). Posts têm policy adicional para admins lerem drafts. Policies usam `DROP POLICY IF EXISTS` para idempotência.
+RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa'`). Posts têm policy adicional para o admin ler drafts. Storage: upload/delete restrito ao mesmo UID. Policies usam `DROP POLICY IF EXISTS` para idempotência.
 
 ## Status Atual
 
@@ -154,8 +155,16 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados (`a
 - **Supabase Storage:** ✅ bucket `images` com policies configuradas
 - **Detail pages:** ✅ corrigidas (SSG → dynamic para compatibilidade com Supabase SSR)
 - **RLS posts:** ✅ admins podem ler todos os posts (incluindo drafts)
-- **RLS modernizado:** ✅ `auth.role()` deprecated → `auth.uid() IS NOT NULL`
+- **RLS restrita ao admin:** ✅ escrita/edit/delete de projects, posts e storage bloqueada p/ `auth.uid()` do admin (era `IS NOT NULL` — qualquer usuário logado podia alterar)
+- **Fonte corrigida:** ✅ `--font-sans: var(--font-geist-sans)` (era auto-referência circular, Geist não era aplicada)
+- **Proxy (Next 16):** ✅ middleware → `src/proxy.ts` (sem warning de deprecation)
+- **Anti-spam contato:** ✅ honeypot + cooldown de 60s
+- **ISR listagens:** ✅ `/` e `/blog` com `revalidate = 3600` via cliente público sem cookies
 - **Admin login redirect:** ✅ usuários logados redirecionados para dashboard
+- **Refatoração forms admin:** ✅ 4 páginas duplicadas → ProjectForm/PostForm reutilizáveis
+- **Dead code removido:** ✅ 5 componentes UI e 5 SVGs boilerplate não usados removidos
+- **Error boundaries:** ✅ error.tsx para home, contact, blog, projects e admin
+- **README:** ✅ reescrito com informações reais do projeto
 - **Tradução pt-BR:** ✅ toda a interface traduzida para português brasileiro
 - **Slug automático:** ✅ slug sempre gerada a partir do título
 - **Home page freelancer:** ✅ reestruturada com foco em clientes
@@ -169,23 +178,21 @@ RLS: leitura pública, escrita/edit/delete restrita a usuários autenticados (`a
 ## Pendências / Melhorias Futuras
 
 - [ ] Ajustar tamanhos de fonte (usuário achou pequenas demais)
-- [ ] Migrar `middleware.ts` para `proxy` (convenção do Next.js 16, middleware está deprecated)
 - [ ] Substituir `<img>` por `next/image` no MdRenderer (markdown dinâmico — requer custom component)
 - [ ] Configurar Supabase Storage para imagens de projetos/posts
 - [ ] Adicionar página de detalhe para `/admin` (atualmente é só redirect)
 - [ ] Internacionalizar conteúdo dinâmico (títulos e descrições de projetos/posts no banco)
 - [ ] Substituir placeholder de foto no Hero por next/image com foto real
 - [ ] Adicionar depoimentos reais na seção de Testimonials
-- [ ] Adicionar `error.tsx` para home, contact, blog listing e rotas admin
 - [ ] Adicionar JSON-LD structured data para SEO rich results
 - [ ] Adicionar OpenGraph images para projetos e posts
 - [ ] Migrar admin pages para Server Components (dashboard stats, list pages)
-- [ ] Refatorar admin CRUD forms em componentes reutilizáveis (~750 linhas duplicadas)
 - [ ] Tornar sidebar admin responsiva para mobile
-- [ ] Gerar tipos Supabase database (`supabase gen types typescript`)
-- [ ] Adicionar `NEXT_PUBLIC_SITE_URL` ao .env.example para sitemap/robots
+- [ ] Gerar tipos Supabase database (`supabase gen types typescript` — requer CLI + access token)
 - [ ] Remover hardcoded fallback stats no admin dashboard
-- [ ] Atualizar social links para URLs reais de perfil
+- [ ] Atualizar social links para URLs reais de perfil (github.com, linkedin.com, twitter.com são placeholders)
+- [ ] Adicionar `NEXT_PUBLIC_SITE_URL` ao `.env.local` (default no código: juanmatos.dev.br) e atualizar a variável no Vercel se definida
+- [ ] Email de contato já atualizado para juan.matos@outlook.com (conferir se há outros pontos de contato a atualizar)
 
 ## Como Rodar
 

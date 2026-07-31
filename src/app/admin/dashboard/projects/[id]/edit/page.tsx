@@ -3,16 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
-import { ImageUpload } from "@/components/admin/image-upload";
-import { slugify } from "@/lib/utils";
+import { ProjectForm } from "@/components/admin/project-form";
 import { toast } from "sonner";
 import type { ProjectFormValues } from "@/types";
 
@@ -20,19 +11,8 @@ export default function EditProjectPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [form, setForm] = useState<ProjectFormValues>({
-    title: "",
-    slug: "",
-    description: "",
-    full_content: "",
-    tags: "",
-    repo_url: "",
-    live_url: "",
-    cover_image_url: "",
-    featured: false,
-  });
+  const [initialValues, setInitialValues] = useState<ProjectFormValues>();
 
   useEffect(() => {
     const supabase = createClient();
@@ -47,7 +27,7 @@ export default function EditProjectPage() {
           router.push("/admin/dashboard/projects");
           return;
         }
-        setForm({
+        setInitialValues({
           title: data.title,
           slug: data.slug,
           description: data.description,
@@ -62,25 +42,8 @@ export default function EditProjectPage() {
       });
   }, [id, router]);
 
-  const updateField = (field: keyof ProjectFormValues, value: string | boolean) => {
-    setForm((prev) => {
-      const next = { ...prev, [field]: value };
-      if (field === "title") {
-        next.slug = slugify(value as string);
-      }
-      return next;
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const handleSubmit = async (form: ProjectFormValues) => {
     const supabase = createClient();
-    const tagsArray = form.tags
-      ? form.tags.split(",").map((t) => t.trim()).filter(Boolean)
-      : [];
-
     const { error } = await supabase
       .from("projects")
       .update({
@@ -88,7 +51,9 @@ export default function EditProjectPage() {
         slug: form.slug,
         description: form.description,
         full_content: form.full_content,
-        tags: tagsArray,
+        tags: form.tags
+          ? form.tags.split(",").map((t) => t.trim()).filter(Boolean)
+          : [],
         repo_url: form.repo_url || null,
         live_url: form.live_url || null,
         cover_image_url: form.cover_image_url || null,
@@ -98,7 +63,6 @@ export default function EditProjectPage() {
 
     if (error) {
       toast.error(error.message);
-      setLoading(false);
       return;
     }
 
@@ -117,114 +81,13 @@ export default function EditProjectPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <h1 className="font-heading text-2xl font-semibold">Editar Projeto</h1>
-
-      <Card>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Título</Label>
-              <Input
-                id="title"
-                value={form.title}
-                onChange={(e) => updateField("title", e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
-              <Input
-                id="slug"
-                value={form.slug}
-                onChange={(e) => updateField("slug", e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Descrição</Label>
-              <Input
-                id="description"
-                value={form.description}
-                onChange={(e) => updateField("description", e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="full_content">Conteúdo Completo (Markdown)</Label>
-              <Textarea
-                id="full_content"
-                rows={10}
-                value={form.full_content}
-                onChange={(e) => updateField("full_content", e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="tags">Tags (separadas por vírgula)</Label>
-              <Input
-                id="tags"
-                value={form.tags}
-                onChange={(e) => updateField("tags", e.target.value)}
-                placeholder="nextjs, react, typescript"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="repo_url">Repo URL</Label>
-              <Input
-                id="repo_url"
-                value={form.repo_url}
-                onChange={(e) => updateField("repo_url", e.target.value)}
-                placeholder="https://github.com/..."
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="live_url">Live URL</Label>
-              <Input
-                id="live_url"
-                value={form.live_url}
-                onChange={(e) => updateField("live_url", e.target.value)}
-                placeholder="https://..."
-              />
-            </div>
-
-            <ImageUpload
-              value={form.cover_image_url}
-              onChange={(url) => updateField("cover_image_url", url)}
-              folder="projects"
-              label="Cover Image"
-            />
-
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="featured"
-                checked={form.featured}
-                onChange={(e) => updateField("featured", e.target.checked)}
-                className="size-4 rounded border-input"
-              />
-              <Label htmlFor="featured">Destaque</Label>
-            </div>
-
-            <div className="flex gap-2 pt-2">
-              <Button type="submit" disabled={loading}>
-                {loading ? "Salvando..." : "Salvar Alterações"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.push("/admin/dashboard/projects")}
-              >
-                Cancelar
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+      <ProjectForm
+        initialValues={initialValues}
+        submitLabel="Salvar Alterações"
+        submittingLabel="Salvando..."
+        cancelHref="/admin/dashboard/projects"
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }

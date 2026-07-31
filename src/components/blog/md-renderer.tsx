@@ -3,7 +3,6 @@
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeHighlight from "rehype-highlight"
-import rehypeRaw from "rehype-raw"
 
 function CopyButton({ code }: { code: string }) {
   const handleCopy = async () => {
@@ -25,7 +24,7 @@ export function MdRenderer({ content }: { content: string }) {
     <div className="prose-custom">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+        rehypePlugins={[rehypeHighlight]}
         components={{
           pre({ children, ...props }) {
             const codeElement = children as React.ReactElement<{

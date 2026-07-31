@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -21,8 +21,12 @@ const contactSchema = z.object({
   message: z.string().min(10, "A mensagem deve ter pelo menos 10 caracteres"),
 })
 
+const COOLDOWN_SECONDS = 60
+
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [cooldown, setCooldown] = useState(0)
+  const [honeypot, setHoneypot] = useState("")
 
   const {
     register,
@@ -33,13 +37,33 @@ export function ContactForm() {
     resolver: zodResolver(contactSchema),
   })
 
+  useEffect(() => {
+    if (cooldown === 0) return
+    const timer = setTimeout(() => setCooldown((c) => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [cooldown])
+
   async function onSubmit(data: ContactFormValues) {
+    if (cooldown > 0) {
+      toast.error(`Aguarde ${cooldown}s antes de enviar outra mensagem`)
+      return
+    }
+
+    if (honeypot) {
+      toast.success("Mensagem enviada!", {
+        description: "Obrigado pelo contato. Retornarei em breve.",
+      })
+      reset()
+      return
+    }
+
     setIsSubmitting(true)
     try {
       await sendContactEmail(data)
       toast.success("Mensagem enviada!", {
         description: "Obrigado pelo contato. Retornarei em breve.",
       })
+      setCooldown(COOLDOWN_SECONDS)
       reset()
     } catch {
       toast.error("Falha ao enviar mensagem", {
@@ -52,6 +76,19 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div className="sr-only" aria-hidden="true">
+        <Label htmlFor="website">Website</Label>
+        <input
+          id="website"
+          type="text"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          className="hidden"
+        />
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="name">Nome</Label>
         <Input
@@ -102,12 +139,18 @@ export function ContactForm() {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="w-full">
+      <Button
+        type="submit"
+        disabled={isSubmitting || cooldown > 0}
+        className="w-full"
+      >
         {isSubmitting ? (
           <>
             <Loader2 className="animate-spin" />
             Enviando...
           </>
+        ) : cooldown > 0 ? (
+          `Aguarde ${cooldown}s`
         ) : (
           "Enviar Mensagem"
         )}

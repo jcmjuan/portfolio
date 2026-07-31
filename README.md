@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfólio — Juan Carlos Matos
 
-## Getting Started
+Portfólio freelancer construído com Next.js 16 (App Router + Turbopack), React 19, TypeScript, Tailwind CSS v4 e Shadcn UI (base-nova, `@base-ui/react`). Conteúdo gerenciado via Supabase (PostgreSQL + Auth + Storage) e contato via EmailJS.
 
-First, run the development server:
+## Stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack)
+- **UI:** React 19 + TypeScript + Tailwind CSS v4 + Shadcn UI
+- **Banco:** Supabase (Auth + PostgreSQL + Storage)
+- **Email:** EmailJS (formulário de contato frontend)
+- **Deploy:** Vercel
+- **Fontes:** Geist (sans), Geist Mono (mono)
+
+## Rotas
+
+| Rota | Tipo | Descrição |
+|---|---|---|
+| `/` | ISR (1h) | Home (Hero + Services + Featured Projects + About + Testimonials + Skills) |
+| `/projects` | Dynamic | Lista de projetos com filtro por tags |
+| `/projects/[slug]` | Dynamic | Detalhe do projeto (force-dynamic) |
+| `/blog` | ISR (1h) | Lista de posts publicados |
+| `/blog/[slug]` | Dynamic | Detalhe do post (force-dynamic) |
+| `/contact` | Static | Formulário de contato (EmailJS + honeypot + cooldown) |
+| `/admin` | Dynamic | Redirect → `/admin/dashboard` |
+| `/admin/login` | Dynamic | Login via Supabase Auth |
+| `/admin/dashboard/*` | Dynamic | CRUD de projetos e posts |
+
+## Como Rodar
 
 ```bash
+# 1. Instalar dependências
+npm install
+
+# 2. Configurar variáveis de ambiente
+cp .env.example .env.local   # e preencher os valores
+
+# 3. Rodar a migration no Supabase (supabase/schema.sql)
+
+# 4. Criar usuário admin no Supabase → Authentication → Users
+
+# 5. Iniciar o dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variáveis de Ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variável | Onde encontrar |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | URL do deploy (usada no sitemap/robots) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Settings → General → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Settings → API Keys → Publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API Keys → Secret key |
+| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | EmailJS → Email Services → Service ID |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | EmailJS → Email Templates → Template ID |
+| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | EmailJS → Account → Public Key |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Segurança
 
-## Learn More
+- **RLS:** leitura pública; escrita/edit/delete de projects, posts e storage restrita ao UID do admin (`auth.uid()`).
+- **Headers HTTP:** `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` (next.config.ts).
+- **Proxy (`src/proxy.ts`):** protege as rotas `/admin/*`, redirecionando para login quando não autenticado.
+- **Anti-spam no contato:** honeypot + cooldown de 60s.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev      # dev server
+npm run build    # build de produção
+npm run start    # iniciar build
+npm run lint     # ESLint
+```

@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { PostDetailView } from "@/components/blog/post-detail"
 import type { Post } from "@/types"
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic"
 
 async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("posts")
       .select("*")

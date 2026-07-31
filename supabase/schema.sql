@@ -58,43 +58,43 @@ create policy "Public can read published posts"
   on posts for select
   using (published = true);
 
--- AUTHENTICATED WRITE: Only authenticated users can manage projects
-DROP POLICY IF EXISTS "Authenticated users can insert projects" ON projects;
-create policy "Authenticated users can insert projects"
+-- ADMIN WRITE: Only the admin user can manage projects
+DROP POLICY IF EXISTS "Admin can insert projects" ON projects;
+create policy "Admin can insert projects"
   on projects for insert
-  with check (auth.uid() IS NOT NULL);
+  with check (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
-DROP POLICY IF EXISTS "Authenticated users can update projects" ON projects;
-create policy "Authenticated users can update projects"
+DROP POLICY IF EXISTS "Admin can update projects" ON projects;
+create policy "Admin can update projects"
   on projects for update
-  using (auth.uid() IS NOT NULL);
+  using (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
-DROP POLICY IF EXISTS "Authenticated users can delete projects" ON projects;
-create policy "Authenticated users can delete projects"
+DROP POLICY IF EXISTS "Admin can delete projects" ON projects;
+create policy "Admin can delete projects"
   on projects for delete
-  using (auth.uid() IS NOT NULL);
+  using (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
--- AUTHENTICATED WRITE: Only authenticated users can manage posts
-DROP POLICY IF EXISTS "Authenticated users can insert posts" ON posts;
-create policy "Authenticated users can insert posts"
+-- ADMIN WRITE: Only the admin user can manage posts
+DROP POLICY IF EXISTS "Admin can insert posts" ON posts;
+create policy "Admin can insert posts"
   on posts for insert
-  with check (auth.uid() IS NOT NULL);
+  with check (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
-DROP POLICY IF EXISTS "Authenticated users can update posts" ON posts;
-create policy "Authenticated users can update posts"
+DROP POLICY IF EXISTS "Admin can update posts" ON posts;
+create policy "Admin can update posts"
   on posts for update
-  using (auth.uid() IS NOT NULL);
+  using (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
-DROP POLICY IF EXISTS "Authenticated users can delete posts" ON posts;
-create policy "Authenticated users can delete posts"
+DROP POLICY IF EXISTS "Admin can delete posts" ON posts;
+create policy "Admin can delete posts"
   on posts for delete
-  using (auth.uid() IS NOT NULL);
+  using (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
--- AUTHENTICATED READ: Authenticated users can read all posts (including drafts)
-DROP POLICY IF EXISTS "Authenticated users can read all posts" ON posts;
-create policy "Authenticated users can read all posts"
+-- ADMIN READ: Only the admin user can read all posts (including drafts)
+DROP POLICY IF EXISTS "Admin can read all posts" ON posts;
+create policy "Admin can read all posts"
   on posts for select
-  using (auth.uid() IS NOT NULL);
+  using (auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
 -- ============================================================
 -- STORAGE POLICIES (images bucket)
@@ -106,14 +106,14 @@ CREATE POLICY "Public read access for images"
 ON storage.objects FOR SELECT
 USING (bucket_id = 'images');
 
--- AUTHENTICATED INSERT: Only authenticated users can upload images
-DROP POLICY IF EXISTS "Authenticated users can upload images" ON storage.objects;
-CREATE POLICY "Authenticated users can upload images"
+-- ADMIN INSERT: Only the admin user can upload images
+DROP POLICY IF EXISTS "Admin can upload images" ON storage.objects;
+CREATE POLICY "Admin can upload images"
 ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'images' AND auth.uid() IS NOT NULL);
+WITH CHECK (bucket_id = 'images' AND auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');
 
--- AUTHENTICATED DELETE: Only authenticated users can delete images
-DROP POLICY IF EXISTS "Authenticated users can delete images" ON storage.objects;
-CREATE POLICY "Authenticated users can delete images"
+-- ADMIN DELETE: Only the admin user can delete images
+DROP POLICY IF EXISTS "Admin can delete images" ON storage.objects;
+CREATE POLICY "Admin can delete images"
 ON storage.objects FOR DELETE
-USING (bucket_id = 'images' AND auth.uid() IS NOT NULL);
+USING (bucket_id = 'images' AND auth.uid() = 'bcfb7dc1-8c11-4b83-9bf9-213afb202ffa');

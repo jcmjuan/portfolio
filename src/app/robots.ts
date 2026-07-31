@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: "/admin/",
       },
     ],
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || "https://jcmatos.dev"}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || "https://juanmatos.dev.br"}/sitemap.xml`,
   };
 }

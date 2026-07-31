@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jcmatos.dev";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://juanmatos.dev.br";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     const { data: projects } = await supabase
       .from("projects")

@@ -1,10 +1,12 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
 
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { ProjectCard } from "@/components/projects/project-card"
 import { ProjectFilters } from "./filters"
 import type { Project } from "@/types"
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: "Projetos | Portfólio",
@@ -14,10 +16,10 @@ export const metadata: Metadata = {
 
 async function getAllProjects(): Promise<Project[]> {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("projects")
-      .select("*")
+      .select("id,title,slug,description,tags,cover_image_url,repo_url,live_url,featured,created_at")
       .order("created_at", { ascending: false })
 
     if (error || !data || data.length === 0) {

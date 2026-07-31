@@ -11,16 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { getGradient } from "@/lib/utils"
 import type { Project } from "@/types"
 
 async function getFeaturedProjects(): Promise<Project[]> {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("projects")
-      .select("*")
+      .select("id,title,slug,description,tags,cover_image_url,repo_url,live_url,created_at")
       .eq("featured", true)
       .order("created_at", { ascending: false })
       .limit(3)

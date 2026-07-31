@@ -3,10 +3,10 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, ExternalLink, GitFork } from "lucide-react"
-import Markdown from "react-markdown"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { MdRenderer } from "@/components/blog/md-renderer"
 import { getGradient } from "@/lib/utils"
 import type { Project } from "@/types"
 
@@ -99,9 +99,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
         </div>
 
         {project.full_content && (
-          <div className="prose prose-neutral dark:prose-invert max-w-none">
-            <Markdown>{project.full_content}</Markdown>
-          </div>
+          <MdRenderer content={project.full_content} />
         )}
       </div>
     </article>

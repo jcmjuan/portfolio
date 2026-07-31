@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { ProjectDetailView } from "@/components/projects/project-detail"
 import type { Project } from "@/types"
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic"
 
 async function getProject(slug: string): Promise<Project | null> {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("projects")
       .select("*")

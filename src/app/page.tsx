@@ -8,6 +8,8 @@ import { Testimonials } from "@/components/sections/testimonials"
 import { Skills } from "@/components/sections/skills"
 import { Button } from "@/components/ui/button"
 
+export const revalidate = 3600
+
 export default function Home() {
   return (
     <>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import { BookOpen } from "lucide-react"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { PostCard } from "@/components/blog/post-card"
 import type { Post } from "@/types"
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: "Blog | Portfólio",
@@ -12,10 +14,10 @@ export const metadata: Metadata = {
 
 async function getAllPosts(): Promise<Post[]> {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
+      .select("id,title,slug,excerpt,cover_image_url,created_at")
       .eq("published", true)
       .order("created_at", { ascending: false })
 
