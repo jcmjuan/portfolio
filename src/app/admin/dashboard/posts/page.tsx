@@ -18,6 +18,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, Send } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { revalidateContent } from "@/lib/revalidate";
 import { toast } from "sonner";
 import type { Post } from "@/types";
 
@@ -64,6 +65,7 @@ export default function PostsPage() {
     setPosts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, published: !current } : p))
     );
+    await revalidateContent();
     toast.success("Atualizado");
   };
 
@@ -77,6 +79,7 @@ export default function PostsPage() {
     }
 
     setPosts((prev) => prev.filter((p) => p.id !== id));
+    await revalidateContent();
     toast.success("Excluído");
   };
 

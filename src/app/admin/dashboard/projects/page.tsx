@@ -18,6 +18,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, Star } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { revalidateContent } from "@/lib/revalidate";
 import { toast } from "sonner";
 import type { Project } from "@/types";
 
@@ -67,6 +68,7 @@ export default function ProjectsPage() {
     setProjects((prev) =>
       prev.map((p) => (p.id === id ? { ...p, featured: !current } : p))
     );
+    await revalidateContent();
     toast.success("Atualizado");
   };
 
@@ -80,6 +82,7 @@ export default function ProjectsPage() {
     }
 
     setProjects((prev) => prev.filter((p) => p.id !== id));
+    await revalidateContent();
     toast.success("Excluído");
   };
 

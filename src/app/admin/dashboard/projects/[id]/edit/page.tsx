@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ProjectForm } from "@/components/admin/project-form";
+import { revalidateContent } from "@/lib/revalidate";
 import { toast } from "sonner";
 import type { ProjectFormValues } from "@/types";
 
@@ -67,6 +68,7 @@ export default function EditProjectPage() {
     }
 
     toast.success("Projeto atualizado");
+    await revalidateContent();
     router.push("/admin/dashboard/projects");
   };
 

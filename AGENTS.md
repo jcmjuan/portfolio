@@ -54,6 +54,7 @@ src/
 │   └── ui/                     # 7 componentes Shadcn (button, card, input, label, textarea, badge, dialog)
 ├── lib/
 │   ├── env.ts                  # Server-side env validation (Proxy + zod, SOMENTE server-side)
+│   ├── revalidate.ts           # Server action "use server": revalida ISR (/blog, /, /projects) após mutações admin
 │   ├── supabase/client.ts      # Browser client (createBrowserClient, process.env direto)
 │   ├── supabase/server.ts      # Server client (async cookies, usa env.ts)
 │   ├── supabase/public.ts      # Server client SEM cookies p/ leituras públicas (permite ISR)
@@ -161,6 +162,7 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - **Proxy (Next 16):** ✅ middleware → `src/proxy.ts` (sem warning de deprecation)
 - **Anti-spam contato:** ✅ honeypot + cooldown de 60s
 - **ISR listagens:** ✅ `/` e `/blog` com `revalidate = 3600` via cliente público sem cookies
+- **ISR invalidação:** ✅ `revalidateContent` (src/lib/revalidate.ts) chamada após create/update/delete/toggle no admin — conteúdo some/atualiza imediatamente no `/blog` e home; sitemap.ts também revalida a cada 1h
 - **Admin login redirect:** ✅ usuários logados redirecionados para dashboard
 - **Refatoração forms admin:** ✅ 4 páginas duplicadas → ProjectForm/PostForm reutilizáveis
 - **Dead code removido:** ✅ 5 componentes UI e 5 SVGs boilerplate não usados removidos

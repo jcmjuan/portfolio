@@ -3,6 +3,8 @@ import { createPublicClient } from "@/lib/supabase/public";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://juanmatos.dev.br";
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     {

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { PostForm } from "@/components/admin/post-form";
+import { revalidateContent } from "@/lib/revalidate";
 import { toast } from "sonner";
 import type { PostFormValues } from "@/types";
 
@@ -26,6 +27,7 @@ export default function NewPostPage() {
     }
 
     toast.success("Post criado");
+    await revalidateContent();
     router.push("/admin/dashboard/posts");
   };
 
