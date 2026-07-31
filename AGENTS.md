@@ -194,7 +194,7 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - [ ] Tornar sidebar admin responsiva para mobile
 - [ ] Remover hardcoded fallback stats no admin dashboard
 - [ ] Atualizar social links para URLs reais de perfil (github.com, linkedin.com, twitter.com são placeholders)
-- [ ] Adicionar `NEXT_PUBLIC_SITE_URL` ao `.env.local` (default no código: juanmatos.dev.br) e atualizar a variável no Vercel se definida
+- [ ] Conferir se `NEXT_PUBLIC_SITE_URL` está configurada na Vercel (Settings → Environment Variables) — valor local: juanmatos.dev.br
 - [ ] Email de contato já atualizado para juan.matos@outlook.com (conferir se há outros pontos de contato a atualizar)
 
 ## Como Rodar
