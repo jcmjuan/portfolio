@@ -58,6 +58,7 @@ src/
 │   ├── supabase/server.ts      # Server client (async cookies, usa env.ts)
 │   ├── supabase/public.ts      # Server client SEM cookies p/ leituras públicas (permite ISR)
 │   ├── supabase/admin.ts       # Service role client (server-only, usa env.ts)
+│   ├── supabase/database.types.ts  # Tipos gerados (supabase gen types — Database)
 │   ├── emailjs.ts              # sendContactEmail wrapper (process.env direto)
 │   └── utils.ts                # cn, formatDate (pt-BR), slugify, getGradient
 ├── types/index.ts              # Project, Post, ContactFormValues, etc.
@@ -167,6 +168,7 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - **README:** ✅ reescrito com informações reais do projeto
 - **Tradução pt-BR:** ✅ toda a interface traduzida para português brasileiro
 - **Slug automático:** ✅ slug sempre gerada a partir do título
+- **Tipos Supabase gerados:** ✅ `database.types.ts` via `supabase gen types` (CLI instalada; ref do projeto: mhllpalldcsvrocgckov)
 - **Home page freelancer:** ✅ reestruturada com foco em clientes
 - **Segurança:** ✅ headers HTTP configurados no next.config.ts
 - **SEO:** ✅ robots.txt + sitemap.xml dinâmicos
@@ -188,7 +190,6 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - [ ] Adicionar OpenGraph images para projetos e posts
 - [ ] Migrar admin pages para Server Components (dashboard stats, list pages)
 - [ ] Tornar sidebar admin responsiva para mobile
-- [ ] Gerar tipos Supabase database (`supabase gen types typescript` — requer CLI + access token)
 - [ ] Remover hardcoded fallback stats no admin dashboard
 - [ ] Atualizar social links para URLs reais de perfil (github.com, linkedin.com, twitter.com são placeholders)
 - [ ] Adicionar `NEXT_PUBLIC_SITE_URL` ao `.env.local` (default no código: juanmatos.dev.br) e atualizar a variável no Vercel se definida
@@ -225,3 +226,4 @@ npm run dev
 - Depoimentos: 3 cards placeholder, aguardando seleção de depoimentos reais
 - **env.ts é server-only** — NÃO usar em componentes client-side (use `process.env.X!` diretamente)
 - **admin.ts usa server-only** — importado com `import "server-only"` para impedir uso em client components
+- **Regenerar tipos Supabase:** `supabase gen types typescript --project-id mhllpalldcsvrocgckov > src/lib/supabase/database.types.ts` (os 4 clients são tipados com `<Database>`; rodar `npx tsc --noEmit` após regerar — campos `string | null` exigem `?? ""` nas coerções)

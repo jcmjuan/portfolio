@@ -32,7 +32,22 @@ export default function ProjectsPage() {
       .select("*")
       .order("created_at", { ascending: false })
       .then(({ data, error }) => {
-        if (!error && data) setProjects(data);
+        if (!error && data)
+          setProjects(
+            data.map((p) => ({
+              id: p.id,
+              title: p.title,
+              slug: p.slug,
+              description: p.description,
+              full_content: p.full_content ?? "",
+              tags: p.tags ?? [],
+              repo_url: p.repo_url,
+              live_url: p.live_url,
+              cover_image_url: p.cover_image_url,
+              featured: p.featured ?? false,
+              created_at: p.created_at ?? "",
+            }))
+          );
         setLoading(false);
       });
   }, []);

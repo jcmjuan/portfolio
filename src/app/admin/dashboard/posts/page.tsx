@@ -32,7 +32,19 @@ export default function PostsPage() {
       .select("*")
       .order("created_at", { ascending: false })
       .then(({ data, error }) => {
-        if (!error && data) setPosts(data);
+        if (!error && data)
+          setPosts(
+            data.map((p) => ({
+              id: p.id,
+              title: p.title,
+              slug: p.slug,
+              excerpt: p.excerpt,
+              content: p.content ?? "",
+              cover_image_url: p.cover_image_url,
+              published: p.published ?? false,
+              created_at: p.created_at ?? "",
+            }))
+          );
         setLoading(false);
       });
   }, []);

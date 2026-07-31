@@ -31,12 +31,12 @@ export default function EditProjectPage() {
           title: data.title,
           slug: data.slug,
           description: data.description,
-          full_content: data.full_content,
+          full_content: data.full_content ?? "",
           tags: Array.isArray(data.tags) ? data.tags.join(", ") : "",
           repo_url: data.repo_url ?? "",
           live_url: data.live_url ?? "",
           cover_image_url: data.cover_image_url ?? "",
-          featured: data.featured,
+          featured: data.featured ?? false,
         });
         setFetching(false);
       });

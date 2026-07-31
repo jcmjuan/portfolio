@@ -31,9 +31,9 @@ export default function EditPostPage() {
           title: data.title,
           slug: data.slug,
           excerpt: data.excerpt,
-          content: data.content,
+          content: data.content ?? "",
           cover_image_url: data.cover_image_url ?? "",
-          published: data.published,
+          published: data.published ?? false,
         });
         setFetching(false);
       });
