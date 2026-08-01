@@ -24,7 +24,7 @@ export function Hero() {
         </Badge>
 
         <h1
-          className="animate-[fade-in_0.6s_ease-out_both] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+          className="animate-[fade-in_0.6s_ease-out_both] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
           style={{ animationDelay: "0.1s" }}
         >
           Olá, eu sou o{" "}

@@ -8,7 +8,7 @@ Portfólio freelancer construído com Next.js 16 (App Router + Turbopack), React
 - **UI:** React 19 + TypeScript + Tailwind CSS v4 + Shadcn UI
 - **Banco:** Supabase (Auth + PostgreSQL + Storage)
 - **Email:** EmailJS (formulário de contato frontend)
-- **Deploy:** Vercel
+- **Deploy:** Vercel (juanmatos.dev.br, atrás do Cloudflare)
 - **Fontes:** Geist (sans), Geist Mono (mono)
 
 ## Rotas
@@ -60,6 +60,13 @@ npm run dev
 - **Headers HTTP:** `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` (next.config.ts).
 - **Proxy (`src/proxy.ts`):** protege as rotas `/admin/*`, redirecionando para login quando não autenticado.
 - **Anti-spam no contato:** honeypot + cooldown de 60s.
+
+## SEO
+
+- **robots.txt + sitemap.xml dinâmicos** (`src/app/robots.ts`, `src/app/sitemap.ts`) com `NEXT_PUBLIC_SITE_URL` (juanmatos.dev.br). Sitemap revalida a cada 1h.
+- **ISR:** `/` e `/blog` revalidam a cada 1h; mutações no admin chamam `revalidateContent()` (`src/lib/revalidate.ts`) para invalidar o cache na hora.
+- **Cloudflare:** "Managed robots.txt" desativado para o `robots.ts` do app ser servido (`Allow: /`, `Disallow: /admin/`, `Sitemap:`).
+- **Tipos Supabase:** queries validadas no build via `database.types.ts` (gerado com `supabase gen types`).
 
 ## Scripts
 

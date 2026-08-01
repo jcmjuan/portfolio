@@ -7,8 +7,8 @@
 - **Estilo:** Tailwind CSS v4 + Shadcn UI (base-nova, @base-ui/react)
 - **Banco:** Supabase (Auth + PostgreSQL + Storage)
 - **Email:** EmailJS (formulário de contato frontend)
-- **Deploy:** Vercel
-- **Fontes:** Inter (sans), Geist Mono (mono)
+- **Deploy:** Vercel (domínio: juanmatos.dev.br, atrás do Cloudflare)
+- **Fontes:** Geist (sans), Geist Mono (mono)
 
 ## Estrutura de Pastas
 
@@ -118,6 +118,7 @@ src/
 
 | Variável | Onde encontrar |
 |---|---|
+| `NEXT_PUBLIC_SITE_URL` | Domínio do deploy (https://juanmatos.dev.br) — usada em sitemap/robots |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Settings → General → Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Settings → API Keys → Publishable key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard → Settings → API Keys → Secret key |
@@ -178,6 +179,10 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - **Server Components:** ✅ Hero, ProjectCard, PostCard como server components
 - **Imagens:** ✅ post-card e post-detail usando next/image
 - **Índices DB:** ✅ created_at e published+created_at para performance
+- **Clients tipados:** ✅ os 4 clients (client/server/public/admin) usam `<Database>` do database.types.ts — queries validadas no build
+- **Domínio real:** ✅ juanmatos.dev.br em sitemap.ts, robots.ts, .env.example e .env.local; importado na Vercel (redeploy feito)
+- **Email de contato:** ✅ juan.matos@outlook.com (contact/page.tsx — único ponto de contato, footer não tem email)
+- **Cloudflare:** ✅ "Managed robots.txt" desativado — robots.txt do app (robots.ts) é servido com Sitemap + Disallow /admin/
 
 ## Pendências / Melhorias Futuras
 
@@ -193,9 +198,7 @@ RLS: leitura pública; escrita/edit/delete restrita ao UID do admin (`auth.uid()
 - [ ] Migrar admin pages para Server Components (dashboard stats, list pages)
 - [ ] Tornar sidebar admin responsiva para mobile
 - [ ] Remover hardcoded fallback stats no admin dashboard
-- [ ] Atualizar social links para URLs reais de perfil (github.com, linkedin.com, twitter.com são placeholders)
-- [ ] Conferir se `NEXT_PUBLIC_SITE_URL` está configurada na Vercel (Settings → Environment Variables) — valor local: juanmatos.dev.br
-- [ ] Email de contato já atualizado para juan.matos@outlook.com (conferir se há outros pontos de contato a atualizar)
+- [ ] Atualizar social links para URLs reais de perfil (github.com, linkedin.com, twitter.com são placeholders em footer.tsx e contact/page.tsx)
 
 ## Como Rodar
 
@@ -229,3 +232,5 @@ npm run dev
 - **env.ts é server-only** — NÃO usar em componentes client-side (use `process.env.X!` diretamente)
 - **admin.ts usa server-only** — importado com `import "server-only"` para impedir uso em client components
 - **Regenerar tipos Supabase:** `supabase gen types typescript --project-id mhllpalldcsvrocgckov > src/lib/supabase/database.types.ts` (os 4 clients são tipados com `<Database>`; rodar `npx tsc --noEmit` após regerar — campos `string | null` exigem `?? ""` nas coerções)
+- **Domínio de produção:** juanmatos.dev.br (configurado em .env.local + painel Vercel; NEXT_PUBLIC_* é embutida no build — mudar exige redeploy)
+- **Cloudflare proxy:** site atrás do Cloudflare; "Managed robots.txt" desativado para o robots.ts do app ser servido
